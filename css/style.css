@@ -390,6 +390,12 @@
   color: var(--primary) !important;
 }
 
+.fixed-size {
+  width: 300px; /* hoặc bất kỳ kích thước nào bạn mong muốn */
+  height: 350px; /* hoặc bất kỳ kích thước nào bạn mong muốn */
+  object-fit: cover; /* Giữ hình ảnh không bị méo */
+}
+
 /*** Testimonial ***/
 .testimonial-carousel .owl-item .testimonial-item img {
   width: 60px;
