@@ -1,29 +1,28 @@
 require("dotenv").config();
 
-const environment = process.env.NODE_ENV || "development";
-
 const config = {
   development: {
-    client: "pg",
+    client: 'pg', // Ensure the 'client' is specified as 'pg' for PostgreSQL
     connection: {
       host: process.env.DB_HOST,
       database: process.env.DB_NAME,
       user: process.env.DB_USER,
-      password: process.env.DB_PASS,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
     },
     migrations: {
-      directory: "./migrations",
+      directory: './migrations',
     },
     seeds: {
-      directory: "./seeds",
+      directory: './seeds',
     },
   },
 
   production: {
-    client: "pg",
+    client: 'pg', // Same for production
     connection: {
       user: process.env.DB_USER,
-      password: process.env.DB_PASS,
+      password: process.env.DB_PASSWORD,
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
       database: process.env.DB_NAME,
@@ -32,12 +31,12 @@ const config = {
       },
     },
     migrations: {
-      directory: "./migrations",
+      directory: './migrations',
     },
     seeds: {
-      directory: "./seeds",
+      directory: './seeds',
     },
   },
 };
 
-module.exports = config[environment];
+module.exports = config[process.env.NODE_ENV || 'development'];
