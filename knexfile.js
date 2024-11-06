@@ -1,15 +1,12 @@
-require("dotenv").config();
-
-const environment = process.env.NODE_ENV || "development";
-
 const config = {
   development: {
     client: "pg",
     connection: {
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
+      host: "pg-d2cf68d-ga04-static-page.k.aivencloud.com",
+      database: "ticketzen",
+      user: "avnadmin",
+      password: "AVNS_1s829F5C7_B4E5LFZ33",
+      port: 21249,
     },
     migrations: {
       directory: "./migrations",
@@ -22,11 +19,11 @@ const config = {
   production: {
     client: "pg",
     connection: {
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      database: process.env.DB_NAME,
+      user: "avnadmin",
+      password: "AVNS_1s829F5C7_B4E5LFZ33",
+      host: "pg-d2cf68d-ga04-static-page.k.aivencloud.com",
+      port: 21249,
+      database: "ticketzen",
       ssl: {
         rejectUnauthorized: false,
       },
@@ -40,4 +37,4 @@ const config = {
   },
 };
 
-module.exports = config[environment];
+module.exports = config["development"];
