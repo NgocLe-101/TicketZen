@@ -1,9 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
 const dbConnection = require('./dbs/init.postgresql');
 const userRoutes = require('./routes/register.route');
-require("dotenv").config();
+
 
 const PORT = process.env.PORT || 3000;
 // Middleware

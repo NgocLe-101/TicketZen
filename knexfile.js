@@ -1,40 +1,42 @@
+require("dotenv").config();
+
 const config = {
   development: {
-    client: "pg",
+    client: 'pg', // Ensure the 'client' is specified as 'pg' for PostgreSQL
     connection: {
-      host: "pg-d2cf68d-ga04-static-page.k.aivencloud.com",
-      database: "ticketzen",
-      user: "avnadmin",
-      password: "AVNS_1s829F5C7_B4E5LFZ33",
-      port: 21249,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
     },
     migrations: {
-      directory: "./migrations",
+      directory: './migrations',
     },
     seeds: {
-      directory: "./seeds",
+      directory: './seeds',
     },
   },
 
   production: {
-    client: "pg",
+    client: 'pg', // Same for production
     connection: {
-      user: "avnadmin",
-      password: "AVNS_1s829F5C7_B4E5LFZ33",
-      host: "pg-d2cf68d-ga04-static-page.k.aivencloud.com",
-      port: 21249,
-      database: "ticketzen",
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      database: process.env.DB_NAME,
       ssl: {
         rejectUnauthorized: false,
       },
     },
     migrations: {
-      directory: "./migrations",
+      directory: './migrations',
     },
     seeds: {
-      directory: "./seeds",
+      directory: './seeds',
     },
   },
 };
 
-module.exports = config["development"];
+module.exports = config[process.env.NODE_ENV || 'development'];
