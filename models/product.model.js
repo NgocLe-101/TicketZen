@@ -38,9 +38,12 @@ class ProductModel {
     }
   };
 
-  static getAllProducts = async (limit) => {
+  static getAllProducts = async (limit = null) => {
     try {
-      return await db("products").select("*").limit(limit);
+      if (limit) {
+        return await db("products").select("*").limit(limit);
+      }
+      return await db("products").select("*");
     } catch (error) {
       throw new Error(error.message);
     }
