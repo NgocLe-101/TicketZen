@@ -24,8 +24,8 @@ app.use(detailRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+app.use((req, res) => {
+  res.status(404).send("404 Not Found");
 });
 
 module.exports = app;

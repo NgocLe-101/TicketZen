@@ -138,728 +138,104 @@
       <div class="tab-content">
         <div id="tab-1" class="tab-pane fade show p-0 active">
           <div class="row g-4">
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/us.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
+            <% movies.forEach((movie, index) => { %>
+              <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="<%= 0.1 + (index * 0.2) %>s">
+                <div class="product-item">
+                  <div class="position-relative bg-light overflow-hidden">
+                    <img class="img-fluid w-100 fixed-size" src="<%= movie.image_url %>" alt="" />
+                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                      New
+                    </div>
+                  </div>
+                  <div class="text-center p-4">
+                    <a class="d-block h5 mb-2" href="/detail/<%= movie.id %>"><%= movie.title %></a>
+                    <p class="text-clamp">
+                      <%= movie.description %>
+                    </p>
+                  </div>
+                  <div class="d-flex border-top">
+                    <small class="w-50 text-center border-end py-2">
+                      <a class="text-body" href="/detail/<%= movie.id %>"><i class="fa fa-eye text-primary me-2"></i>View
+                        detail</a>
+                    </small>
+                    <small class="w-50 text-center py-2">
+                      <a class="text-body" href="/cart/add/<%= movie.id %>"><i class="fa fa-shopping-bag text-primary me-2"></i>Add
+                        to cart</a>
+                    </small>
                   </div>
                 </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">US</a>
-                  <p class="text-clamp">
-                    After the elder brother returns to his hometown, he must
-                    find a way to save his younger sister from a bizarre
-                    illness that is causing her to behave differently.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
               </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/death_whisperer.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Death Whisperer</a>
-                  <p class="text-clamp">
-                    Adelaide Wilson and her family are attacked by mysterious
-                    figures dressed in red. Upon closer inspection, the
-                    Wilsons realise that the intruders are exact lookalikes of
-                    them.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/dvw.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Deadpool</a>
-                  <p class="text-clamp">
-                    Deadpool's peaceful existence comes crashing down when the
-                    Time Variance Authority recruits him to help safeguard the
-                    multiverse. He soon unites with his would-be pal,
-                    Wolverine, to complete the mission and save his world from
-                    an existential threat.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/kraven.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Kraven</a>
-                  <p class="text-clamp">
-                    Kraven's complex relationship with his ruthless father
-                    starts him down a path of vengeance, motivating him to
-                    become not only the greatest hunter in the world, but also
-                    one of its most feared.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/mai.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Mai</a>
-                  <p class="text-clamp">
-                    A Vietnamese woman has endured many difficulties in her
-                    life. When she meets her neighbour, they develop feelings
-                    for each other.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/smile.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Smile</a>
-                  <p class="text-clamp">
-                    After witnessing a bizarre, traumatic incident involving a
-                    patient, Dr. Rose Cotter starts experiencing frightening
-                    occurrences that she can't explain. As an overwhelming
-                    terror begins taking over her life, Rose must confront her
-                    troubling past in order to survive and escape her
-                    horrifying new reality.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/the_fall_guy.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">The fall guy</a>
-                  <p class="text-clamp">
-                    After leaving the business one year earlier,
-                    battle-scarred stuntman Colt Seavers springs back into
-                    action when the star of a big studio movie suddenly
-                    disappears. As the mystery surrounding the missing actor
-                    deepens, Colt soon finds himself ensnared in a sinister
-                    plot that pushes him to the edge of a fall more dangerous
-                    than any stunt.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/venom.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Venom</a>
-                  <p class="text-clamp">
-                    Eddie Brock and Venom must make a devastating decision as
-                    they're pursued by a mysterious military man and alien
-                    monsters from Venom's home world.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
+            <% }); %>
             <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-              <a class="btn btn-accent rounded-pill py-3 px-5" href="product.html">Browse More Movies</a>
+              <a class="btn btn-accent rounded-pill py-3 px-5" href="/movies">Browse More Movies</a>
             </div>
           </div>
         </div>
         <div id="tab-2" class="tab-pane fade show p-0">
           <div class="row g-4">
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/us.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
+            <% romanceMovies.forEach((movie, index) => { %>
+              <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="<%= 0.1 + (index * 0.2) %>s">
+                <div class="product-item">
+                  <div class="position-relative bg-light overflow-hidden">
+                    <img class="img-fluid w-100 fixed-size" src="<%= movie.image_url %>" alt="" />
+                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                      New
+                    </div>
+                  </div>
+                  <div class="text-center p-4">
+                    <a class="d-block h5 mb-2" href="/detail/<%= movie.id %>"><%= movie.title %></a>
+                    <p class="text-clamp">
+                      <%= movie.description %>
+                    </p>
+                  </div>
+                  <div class="d-flex border-top">
+                    <small class="w-50 text-center border-end py-2">
+                      <a class="text-body" href="/detail/<%= movie.id %>"><i class="fa fa-eye text-primary me-2"></i>View
+                        detail</a>
+                    </small>
+                    <small class="w-50 text-center py-2">
+                      <a class="text-body" href="/cart/add/<%= movie.id %>"><i class="fa fa-shopping-bag text-primary me-2"></i>Add
+                        to cart</a>
+                    </small>
                   </div>
                 </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">US</a>
-                  <p class="text-clamp">
-                    After the elder brother returns to his hometown, he must
-                    find a way to save his younger sister from a bizarre
-                    illness that is causing her to behave differently.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
               </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/death_whisperer.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Death Whisperer</a>
-                  <p class="text-clamp">
-                    Adelaide Wilson and her family are attacked by mysterious
-                    figures dressed in red. Upon closer inspection, the
-                    Wilsons realise that the intruders are exact lookalikes of
-                    them.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/dvw.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Deadpool</a>
-                  <p class="text-clamp">
-                    Deadpool's peaceful existence comes crashing down when the
-                    Time Variance Authority recruits him to help safeguard the
-                    multiverse. He soon unites with his would-be pal,
-                    Wolverine, to complete the mission and save his world from
-                    an existential threat.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/kraven.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Kraven</a>
-                  <p class="text-clamp">
-                    Kraven's complex relationship with his ruthless father
-                    starts him down a path of vengeance, motivating him to
-                    become not only the greatest hunter in the world, but also
-                    one of its most feared.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/mai.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Mai</a>
-                  <p class="text-clamp">
-                    A Vietnamese woman has endured many difficulties in her
-                    life. When she meets her neighbour, they develop feelings
-                    for each other.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/smile.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Smile</a>
-                  <p class="text-clamp">
-                    After witnessing a bizarre, traumatic incident involving a
-                    patient, Dr. Rose Cotter starts experiencing frightening
-                    occurrences that she can't explain. As an overwhelming
-                    terror begins taking over her life, Rose must confront her
-                    troubling past in order to survive and escape her
-                    horrifying new reality.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/the_fall_guy.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">The fall guy</a>
-                  <p class="text-clamp">
-                    After leaving the business one year earlier,
-                    battle-scarred stuntman Colt Seavers springs back into
-                    action when the star of a big studio movie suddenly
-                    disappears. As the mystery surrounding the missing actor
-                    deepens, Colt soon finds himself ensnared in a sinister
-                    plot that pushes him to the edge of a fall more dangerous
-                    than any stunt.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/venom.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Venom</a>
-                  <p class="text-clamp">
-                    Eddie Brock and Venom must make a devastating decision as
-                    they're pursued by a mysterious military man and alien
-                    monsters from Venom's home world.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
+            <% }); %>
             <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-              <a class="btn btn-accent rounded-pill py-3 px-5" href="product.html">Browse More Movies</a>
+              <a class="btn btn-accent rounded-pill py-3 px-5" href="/movies">Browse More Movies</a>
             </div>
           </div>
         </div>
         <div id="tab-3" class="tab-pane fade show p-0">
           <div class="row g-4">
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/us.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
+            <% scifiMovies.forEach((movie, index) => { %>
+              <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="<%= 0.1 + (index * 0.2) %>s">
+                <div class="product-item">
+                  <div class="position-relative bg-light overflow-hidden">
+                    <img class="img-fluid w-100 fixed-size" src="<%= movie.image_url %>" alt="" />
+                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                      New
+                    </div>
+                  </div>
+                  <div class="text-center p-4">
+                    <a class="d-block h5 mb-2" href="/detail/<%= movie.id %>"><%= movie.title %></a>
+                    <p class="text-clamp">
+                      <%= movie.description %>
+                    </p>
+                  </div>
+                  <div class="d-flex border-top">
+                    <small class="w-50 text-center border-end py-2">
+                      <a class="text-body" href="/detail/<%= movie.id %>"><i class="fa fa-eye text-primary me-2"></i>View
+                        detail</a>
+                    </small>
+                    <small class="w-50 text-center py-2">
+                      <a class="text-body" href="/cart/add/<%= movie.id %>"><i class="fa fa-shopping-bag text-primary me-2"></i>Add
+                        to cart</a>
+                    </small>
                   </div>
                 </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">US</a>
-                  <p class="text-clamp">
-                    After the elder brother returns to his hometown, he must
-                    find a way to save his younger sister from a bizarre
-                    illness that is causing her to behave differently.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
               </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/death_whisperer.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Death Whisperer</a>
-                  <p class="text-clamp">
-                    Adelaide Wilson and her family are attacked by mysterious
-                    figures dressed in red. Upon closer inspection, the
-                    Wilsons realise that the intruders are exact lookalikes of
-                    them.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/dvw.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Deadpool</a>
-                  <p class="text-clamp">
-                    Deadpool's peaceful existence comes crashing down when the
-                    Time Variance Authority recruits him to help safeguard the
-                    multiverse. He soon unites with his would-be pal,
-                    Wolverine, to complete the mission and save his world from
-                    an existential threat.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/kraven.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Kraven</a>
-                  <p class="text-clamp">
-                    Kraven's complex relationship with his ruthless father
-                    starts him down a path of vengeance, motivating him to
-                    become not only the greatest hunter in the world, but also
-                    one of its most feared.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/mai.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Mai</a>
-                  <p class="text-clamp">
-                    A Vietnamese woman has endured many difficulties in her
-                    life. When she meets her neighbour, they develop feelings
-                    for each other.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/smile.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Smile</a>
-                  <p class="text-clamp">
-                    After witnessing a bizarre, traumatic incident involving a
-                    patient, Dr. Rose Cotter starts experiencing frightening
-                    occurrences that she can't explain. As an overwhelming
-                    terror begins taking over her life, Rose must confront her
-                    troubling past in order to survive and escape her
-                    horrifying new reality.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/the_fall_guy.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">The fall guy</a>
-                  <p class="text-clamp">
-                    After leaving the business one year earlier,
-                    battle-scarred stuntman Colt Seavers springs back into
-                    action when the star of a big studio movie suddenly
-                    disappears. As the mystery surrounding the missing actor
-                    deepens, Colt soon finds himself ensnared in a sinister
-                    plot that pushes him to the edge of a fall more dangerous
-                    than any stunt.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-              <div class="product-item">
-                <div class="position-relative bg-light overflow-hidden">
-                  <img class="img-fluid w-100 fixed-size" src="img/product/venom.jpg" alt="" />
-                  <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                    New
-                  </div>
-                </div>
-                <div class="text-center p-4">
-                  <a class="d-block h5 mb-2" href="detail.html">Venom</a>
-                  <p class="text-clamp">
-                    Eddie Brock and Venom must make a devastating decision as
-                    they're pursued by a mysterious military man and alien
-                    monsters from Venom's home world.
-                  </p>
-                </div>
-                <div class="d-flex border-top">
-                  <small class="w-50 text-center border-end py-2">
-                    <a class="text-body" href="detail.html"><i class="fa fa-eye text-primary me-2"></i>View
-                      detail</a>
-                  </small>
-                  <small class="w-50 text-center py-2">
-                    <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add
-                      to cart</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-              <a class="btn btn-accent rounded-pill py-3 px-5" href="product.html">Browse More Movies</a>
-            </div>
+            <% }); %>
           </div>
         </div>
       </div>

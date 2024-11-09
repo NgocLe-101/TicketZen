@@ -1,7 +1,5 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
 const User = require("../models/user.model"); // Import model
-const router = express.Router();
+const bcrypt = require("bcrypt"); // Import bcrypt
 
 // Controller register
 exports.getRegisterPage = (req, res) => {
@@ -22,12 +20,8 @@ exports.postRegister = async (req, res) => {
       return res.render("register", { errorMessage: "Email already in use" });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // Create new user
-    const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
+    await User.createUser({ username, email, password });
 
     res.redirect("/login");
   } catch (error) {
@@ -37,7 +31,7 @@ exports.postRegister = async (req, res) => {
 
 // Controller login
 exports.getLoginPage = (req, res) => {
-  res.render("login"); // Render login page
+  res.render("login", { errorMessage: "" }); // Render login page
 };
 
 exports.postLogin = async (req, res) => {

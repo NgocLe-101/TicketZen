@@ -21,7 +21,9 @@
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
-
+        <% if (errorMessage) { %>
+        <p class="error-message"><%= errorMessage %></p>
+        <% } %>
         <button class="btn btn-divider rounded-pill" type="submit">
           Login
         </button>
