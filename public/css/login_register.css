@@ -44,21 +44,6 @@ input[type="text"] {
   color: #0b1120;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #fca311;
-  color: #0b1120;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #e68a00;
-}
-
 p {
   margin-top: 20px;
 }

@@ -1,35 +1,37 @@
-// const User = require("../models/user.model"); // Import model
-// const bcrypt = require("bcrypt"); // Import bcrypt
-
+const passport = require("passport");
 // Controller register
 exports.getRegisterPage = (req, res) => {
-  res.render("register"); // Render register page
+  const message = req.flash("error");
+  res.render("register", { errorMessage: message }); // Render register page
 };
 
-// exports.postRegister = async (req, res) => {
-//   passport.authenticate("local-register", {
-//     successRedirect: "/",
-//     failureRedirect: "/register",
-//     failureFlash: true,
-//   })(req, res, next);
-// };
+exports.postRegister = async (req, res, next) => {
+  passport.authenticate("local-register", async (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      req.flash("error", info.message);
+      return res.redirect("/auth/register");
+    }
+    res.render("verify_email", { email: user.email });
+  })(req, res, next);
+};
 
 // Controller login
 exports.getLoginPage = (req, res) => {
   res.render("login", { errorMessage: req.flash("error") }); // Render login page
 };
 
-// exports.postLogin = async (req, res) => {
-//   passport.authenticate("local-login", {
-//     successRedirect: "/",
-//     failureRedirect: "/login",
-//     failureFlash: true,
-//   })(req, res, next);
-// };
+// Controller verify email
+exports.resendEmail = async (req, res) => {
+  const { email } = req.body;
+  // TODO: Send email verification
+  // Using mock data for now
+  res.json({ success: true });
+};
 
 exports.logout = (req, res) => {
   req.logout();
-  res.redirect("/login");
+  res.redirect("/auth/login");
 };
 
 // Middleware to check if user is authenticated
@@ -37,5 +39,5 @@ exports.ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/login");
+  res.redirect("/auth/login");
 };

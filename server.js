@@ -15,7 +15,6 @@ const detailRoutes = require("./routes/detailRoutes");
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(flash());
 
 // Session middleware
 app.use(
@@ -23,9 +22,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 60000 },
   })
 );
 
+app.use(flash());
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());

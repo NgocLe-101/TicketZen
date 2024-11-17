@@ -70,7 +70,6 @@
     },
   });
 
-  // Toast message
   const Toast = {
     init() {
       // Create toast container if not exists
