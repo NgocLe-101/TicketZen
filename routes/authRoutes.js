@@ -8,7 +8,7 @@ router.get("/login", authController.getLoginPage);
 router.post(
   "/login",
   passport.authenticate("local-login", {
-    successRedirect: "/",
+    successRedirect: "/?login=success",
     failureRedirect: "/login",
     failureFlash: true,
   })
@@ -19,7 +19,7 @@ router.get("/register", authController.getRegisterPage);
 router.post(
   "/register",
   passport.authenticate("local-register", {
-    successRedirect: "/",
+    successRedirect: "/login",
     failureRedirect: "/register",
     failureFlash: true,
   })
