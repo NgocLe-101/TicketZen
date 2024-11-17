@@ -54,7 +54,7 @@
                                     <h5 class="fw-bolder text-dark"><%= movie.title %></h5>
                                     <!-- Product reviews-->
                                     <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <% for(let i = 0; i < 5; i++) { %>
+                                        <% for(let i = 0; i < movie.rating; i++) { %>
                                             <div class="bi-star-fill"></div>
                                         <% } %>
                                     </div>

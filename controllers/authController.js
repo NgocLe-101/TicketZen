@@ -1,55 +1,41 @@
-const User = require("../models/user.model"); // Import model
-const bcrypt = require("bcrypt"); // Import bcrypt
+// const User = require("../models/user.model"); // Import model
+// const bcrypt = require("bcrypt"); // Import bcrypt
 
 // Controller register
 exports.getRegisterPage = (req, res) => {
   res.render("register"); // Render register page
 };
 
-exports.postRegister = async (req, res) => {
-  try {
-    const { username, email, password, confirm_password } = req.body;
-
-    if (password !== confirm_password) {
-      return res.render("register", { errorMessage: "Passwords do not match" });
-    }
-
-    // Check if user already exists
-    const existingUser = await User.findOne({ email: email });
-    if (existingUser) {
-      return res.render("register", { errorMessage: "Email already in use" });
-    }
-
-    // Create new user
-    await User.createUser({ username, email, password });
-
-    res.redirect("/login");
-  } catch (error) {
-    res.status(500).send("Server error: " + error.message);
-  }
-};
+// exports.postRegister = async (req, res) => {
+//   passport.authenticate("local-register", {
+//     successRedirect: "/",
+//     failureRedirect: "/register",
+//     failureFlash: true,
+//   })(req, res, next);
+// };
 
 // Controller login
 exports.getLoginPage = (req, res) => {
-  res.render("login", { errorMessage: "" }); // Render login page
+  res.render("login", { errorMessage: req.flash("error") }); // Render login page
 };
 
-exports.postLogin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// exports.postLogin = async (req, res) => {
+//   passport.authenticate("local-login", {
+//     successRedirect: "/",
+//     failureRedirect: "/login",
+//     failureFlash: true,
+//   })(req, res, next);
+// };
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.render("login", { errorMessage: "Invalid email or password" });
-    }
+exports.logout = (req, res) => {
+  req.logout();
+  res.redirect("/login");
+};
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.render("login", { errorMessage: "Invalid email or password" });
-    }
-
-    res.redirect("/");
-  } catch (error) {
-    res.status(500).send("Server error: " + error.message);
+// Middleware to check if user is authenticated
+exports.ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
   }
+  res.redirect("/login");
 };

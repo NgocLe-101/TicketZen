@@ -5,12 +5,14 @@ class UserModel {
   static createUser = async ({ username, email, password }) => {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const [id] = await db("users").insert({
-        username,
-        email,
-        password: hashedPassword,
-      });
-      return id;
+      const id = await db("users")
+        .insert({
+          username,
+          email,
+          password: hashedPassword,
+        })
+        .returning("id");
+      return { id, username, email };
     } catch (error) {
       throw new Error(error.message);
     }
