@@ -1,54 +1,38 @@
-.dropdown {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 1rem;
+.form-select, .form-control {
+    height: 45px;
+    font-size: 14px;
 }
 
-.dropdown button {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.dropdown button:hover {
-    background-color: #555;
-}
-
-.dropdown-content {
-    display: none; /* Ẩn mặc định */
-    position: absolute;
-    background-color: #333;
-    min-width: 300px;
-    z-index: 1;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    grid-template-columns: repeat(3, 1fr); /* Hiển thị 3 cột */
-    gap: 5px;
-}
-
-.dropdown-content a {
-    color: white;
-    padding: 8px 12px;
-    text-decoration: none;
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
     display: block;
-    border-radius: 3px;
 }
 
-.dropdown-content a:hover {
-    background-color: #555;
+.input-group .form-control {
+    max-width: 150px;
 }
 
-/* Khi hover vào dropdown thì hiển thị menu */
-.dropdown:hover .dropdown-content {
-    display: grid;
+.input-group .btn {
+    margin-left: 5px;
 }
 
+.btn {
+    font-size: 14px;
+    font-weight: 600;
+}
 
-.inline{
-    display: inline-block;
+#search-btn{
+    max-width: 150px;
+}
+
+.product-item .text-center a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.margin-bottom{
+    margin-bottom: 2rem
 }

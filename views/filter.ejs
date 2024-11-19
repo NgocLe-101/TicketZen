@@ -1,0 +1,139 @@
+<%- include('head', { active: 'movies' }) -%> <%- include('page_header', {
+title: 'Movies' }) -%>
+
+<!-- Product Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-0 gx-3 align-items-center mb-4">
+            <!-- Genres Filter -->
+            <div class="col-md-2">
+                <label for="genre" class="form-label text-white">Genres</label>
+                <select id="genre" class="form-select">
+                    <option value="all" <% if (filters.genre === 'all') { %>selected<% } %>>All</option>
+                    <option value="Action" <% if (filters.genre === 'Action') { %>selected<% } %>>Action</option>
+                    <option value="Comedy" <% if (filters.genre === 'Comedy') { %>selected<% } %>>Comedy</option>
+                    <option value="Drama" <% if (filters.genre === 'Drama') { %>selected<% } %>>Drama</option>
+                    <option value="Horror" <% if (filters.genre === 'Horror') { %>selected<% } %>>Horror</option>
+                    <option value="Fantasy" <% if (filters.genre === 'Fantasy') { %>selected<% } %>>Fantasy</option>
+                    <option value="Mystery" <% if (filters.genre === 'Mystery') { %>selected<% } %>>Mystery</option>
+                    <option value="Thriller" <% if (filters.genre === 'Thriller') { %>selected<% } %>>Thriller</option>
+                    <option value="Romance" <% if (filters.genre === 'Romance') { %>selected<% } %>>Romance</option>
+                </select>
+            </div>
+            <!-- Language Filter -->
+            <div class="col-md-2">
+                <label for="language" class="form-label text-white">Language</label>
+                <select id="language" class="form-select">
+                    <option value="all" <% if (filters.language === 'all') { %>selected<% } %>>All</option>
+                    <option value="English" <% if (filters.language === 'English') { %>selected<% } %>>English</option>
+                    <option value="Vietnamese" <% if (filters.language === 'Vietnamese') { %>selected<% } %>>Vietnamese</option>
+                    <option value="Chinese" <% if (filters.language === 'Chinese') { %>selected<% } %>>Chinese</option>
+                </select>
+            </div>
+            <!-- Age Filter -->
+            <div class="col-md-2">
+                <label for="age" class="form-label text-white">Age</label>
+                <select id="age" class="form-select">
+                    <option value="all" <% if (filters.age === 'all') { %>selected<% } %>>All</option>
+                    <option value="P" <% if (filters.age === 'P') { %>selected<% } %>>P</option>
+                    <option value="K" <% if (filters.age === 'K') { %>selected<% } %>>K</option>
+                    <option value="T13" <% if (filters.age === 'T13') { %>selected<% } %>>T13</option>
+                    <option value="T16" <% if (filters.age === 'T16') { %>selected<% } %>>T16</option>
+                    <option value="C" <% if (filters.age === 'C') { %>selected<% } %>>C</option>
+                </select>
+            </div>
+            <!-- Rate Filter -->
+            <div class="col-md-2">
+                <label for="rate" class="form-label text-white">Rate</label>
+                <select id="rate" class="form-select">
+                    <option value="all" <% if (filters.rate === 'all') { %>selected<% } %>>All</option>
+                    <option value="5" <% if (filters.rate === '5') { %>selected<% } %>>5 Stars</option>
+                    <option value="4" <% if (filters.rate === '4') { %>selected<% } %>>4 Stars and above</option>
+                    <option value="3" <% if (filters.rate === '3') { %>selected<% } %>>3 Stars and above</option>
+                </select>
+            </div>
+            <!-- Price Filter -->
+            <div class="col-md-2">
+                <label for="price-max" class="form-label text-white">Price ($)</label>
+                <div class="input-group">
+                    <input
+                            type="number"
+                            id="price-max"
+                            class="form-control"
+                            placeholder="Max Price"
+                            min="0"
+                    >
+                    <button class="btn btn-primary" id="price-filter-btn">Filter</button>
+                </div>
+            </div>
+        </div>
+        <!-- Search Box -->
+        <div class="row g-0 gx-3 align-items-center margin-bottom">
+            <div class="col-md-8">
+                <input
+                        type="text"
+                        id="search-box"
+                        class="form-control"
+                        placeholder="Search movies..."
+                >
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success w-100" id="search-btn">Search</button>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane fade show p-0 active">
+                <div class="row g-4 movies-container">
+                    <% movies.forEach((movie, index) => { %>
+                        <div
+                                class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp"
+                                data-wow-delay="<%= 0.1 + (index * 0.2) %>s"
+                        >
+                            <div class="product-item">
+                                <div class="position-relative bg-light overflow-hidden">
+                                    <img
+                                            class="img-fluid w-100 fixed-size"
+                                            src="<%= movie.image_url %>"
+                                            alt=""
+                                    />
+                                    <div
+                                            class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3"
+                                    >
+                                        New
+                                    </div>
+                                </div>
+                                <div class="text-center p-4">
+                                    <a class="d-block h5 mb-2" href="/detail/<%= movie.id %>"
+                                    ><%= movie.title %></a
+                                    >
+                                    <p class="text-clamp"><%= movie.description %></p>
+                                </div>
+                                <div class="d-flex border-top">
+                                    <small class="w-50 text-center border-end py-2">
+                                        <a class="text-body" href="/detail/<%= movie.id %>"
+                                        ><i class="fa fa-eye text-primary me-2"></i>View detail</a
+                                        >
+                                    </small>
+                                    <small class="w-50 text-center py-2">
+                                        <a class="text-body" href="/cart/add/<%= movie.id %>"
+                                        ><i class="fa fa-shopping-bag text-primary me-2"></i>Add to
+                                            cart</a
+                                        >
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                    <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <a class="btn btn-accent rounded-pill py-3 px-5" href="/movies"
+                        >Browse More Movies</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product End -->
+<script src="/js/filter.js"></script>
+<%- include('foot') -%>
