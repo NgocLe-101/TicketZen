@@ -1,0 +1,54 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.dropdown button {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown button:hover {
+    background-color: #555;
+}
+
+.dropdown-content {
+    display: none; /* Ẩn mặc định */
+    position: absolute;
+    background-color: #333;
+    min-width: 300px;
+    z-index: 1;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    grid-template-columns: repeat(3, 1fr); /* Hiển thị 3 cột */
+    gap: 5px;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    border-radius: 3px;
+}
+
+.dropdown-content a:hover {
+    background-color: #555;
+}
+
+/* Khi hover vào dropdown thì hiển thị menu */
+.dropdown:hover .dropdown-content {
+    display: grid;
+}
+
+
+.inline{
+    display: inline-block;
+}

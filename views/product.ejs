@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <title>TicketZen - Your Ticket to the Silver Screen</title>
@@ -30,6 +29,9 @@
 
   <!-- Template Stylesheet -->
   <link href="css/style.css" rel="stylesheet" />
+
+  <!-- filter css  -->
+  <link rel="stylesheet" href="css/filter.css">
 </head>
 
 <body>
@@ -113,29 +115,56 @@
       <div class="row g-0 gx-5 align-items-end">
         <div class="col-lg-6">
           <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px">
-            <h1 class="display-5 mb-3">Movies</h1>
+            <div class="inline">
+              <h1 class="display-5 mb-3">Movies</h1>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="genreDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  Genres
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="genreDropdown">
+                  <li><a class="dropdown-item" href="/movies/genre/Trending">Trending</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Action">Action</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Drama">Drama</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Fantasy">Fantasy</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Horror">Horror</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Mystery">Mystery</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Thriller">Thriller</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Romance">Romance</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/English">English</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Vietnamese">Vietnamese</a></li>
+                  <li><a class="dropdown-item" href="/movies/genre/Chinese">Chinese</a></li>
+                </ul>
+              </div>
+
+            </div>
+
             <p>
               Explore our amazing collection of films, from thrilling action blockbusters to unique
               artistic masterpieces.
             </p>
           </div>
         </div>
-        <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-          <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-            <li class="nav-item me-2">
-              <a class="btn btn-outline-primary border-2 active" data-bs-toggle="pill" href="#tab-1">Action</a>
-            </li>
-            <li class="nav-item me-2">
-              <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-2">Romance
-              </a>
-            </li>
-            <li class="nav-item me-0">
-              <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-3">Sci-Fi</a>
-            </li>
-          </ul>
-        </div>
+
+<!--        tab movies-->
+<!--        <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">-->
+<!--          <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">-->
+<!--            <li class="nav-item me-2">-->
+<!--              <a class="btn btn-outline-primary border-2 active" data-bs-toggle="pill" href="#tab-1">Action</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item me-2">-->
+<!--              <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-2">Romance-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <li class="nav-item me-0">-->
+<!--              <a class="btn btn-outline-primary border-2" data-bs-toggle="pill" href="#tab-3">Sci-Fi</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
       </div>
+      <!--        action movies-->
       <div class="tab-content">
+
+
         <div id="tab-1" class="tab-pane fade show p-0 active">
           <div class="row g-4">
             <% movies.forEach((movie, index) => { %>
@@ -171,6 +200,7 @@
             </div>
           </div>
         </div>
+        <!--        romance movies-->
         <div id="tab-2" class="tab-pane fade show p-0">
           <div class="row g-4">
             <% romanceMovies.forEach((movie, index) => { %>
@@ -206,6 +236,7 @@
             </div>
           </div>
         </div>
+<!--        scifi movies-->
         <div id="tab-3" class="tab-pane fade show p-0">
           <div class="row g-4">
             <% scifiMovies.forEach((movie, index) => { %>

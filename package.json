@@ -7,18 +7,22 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon --inspect --env-file=.env server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "compression": "^1.7.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "fs": "^0.0.1-security",
+    "helmet": "^8.0.0",
     "knex": "^3.1.0",
+    "morgan": "^1.10.0",
     "pg": "^8.13.1",
     "sequelize": "^6.37.5"
   },
