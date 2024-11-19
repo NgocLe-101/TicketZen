@@ -1,25 +1,34 @@
 const { randomInt } = require("crypto");
 const ProductModel = require("../models/product.model");
+const PromotionModel = require("../models/promotion.model");
 
 // Controller index
 exports.getIndexPage = async (req, res) => {
-  const products = await ProductModel.getAllProducts();
+  const [products, promotions] = await Promise.all([
+    ProductModel.getAllProducts(),
+    PromotionModel.getAllPromotions(),
+  ]);
   const tabs = [
     {
       name: "Hot New Release",
-      movies: products.slice(0, 4),
+      movies: products
+        .slice(0, 4)
+        .map((product) => ({ ...product, tag: "NEW" })),
     },
     {
       name: "Best Seller",
-      movies: products.slice(4, 8),
+      movies: products
+        .slice(4, 8)
+        .map((product) => ({ ...product, tag: "HOT" })),
     },
     {
       name: "Top Rated",
-      movies:
-        products.slice(8, 12).length < 4
-          ? products.slice(randomInt(4)).slice(0, 4)
-          : products.slice(8, 12),
+      movies: products
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 4)
+        .map((product) => ({ ...product, tag: "TOP" })),
     },
   ];
-  res.render("index", { tabs }); // Render index page
+  const slideShow = products.slice(0, 4);
+  res.render("index", { tabs, slideShow, promotions }); // Render index page
 };
