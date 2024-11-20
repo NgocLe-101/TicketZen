@@ -1,7 +1,7 @@
 // require("dotenv").config();
-const fs = require("fs");
-const path = require("path");
-const sslCert = fs.readFileSync(path.join(__dirname, "ca.pem"));
+// const fs = require("fs");
+// const path = require("path");
+// const sslCert = fs.readFileSync(path.join(__dirname, "ca.pem"));
 const config = {
   development: {
     client: "pg", // Ensure the 'client' is specified as 'pg' for PostgreSQL
@@ -13,7 +13,7 @@ const config = {
       port: process.env.DB_PORT,
       ssl: {
         rejectUnauthorized: false,
-        ca: sslCert,
+        // ca: sslCert,
       },
     },
 
