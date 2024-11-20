@@ -23,10 +23,6 @@ label {
     font-weight: 600;
 }
 
-#search-btn{
-    max-width: 150px;
-}
-
 .product-item .text-center a {
     white-space: nowrap;
     text-overflow: ellipsis;
