@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
-require("./dbs/init.postgresql");
+// require("./dbs/init.postgresql");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
