@@ -1,6 +1,7 @@
-node_modules
+# Ignore node_modules, env, and other sensitive files
+node_modules/
 .env
-ca-certificate.crt
 .idea/
 .vercel
 ca.pem
+ca-certificate.crt
