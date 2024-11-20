@@ -1,6 +1,9 @@
 <%- include('head', { active: 'movies' }) -%>
 
 <%- include('page_header', { title: 'Movies' }) -%>
+<%- include('head', { active: 'movies' }) -%>
+
+<%- include('page_header', { title: 'Movies' }) -%>
 
 
 <!-- Product Start -->
@@ -46,6 +49,7 @@
                             <% } %>
                             <!-- Product image-->
                             <img class="card-img-top golden-ratio-v" src="<%= movie.image_url %>" alt="<%= movie.title %>" />
+                            <img class="card-img-top golden-ratio-v" src="<%= movie.image_url %>" alt="<%= movie.title %>" />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <a href="/detail/<%= movie.id %>">
@@ -84,4 +88,5 @@
 </div>
 <!-- Product End -->
 
+<%- include('foot') -%>
 <%- include('foot') -%>

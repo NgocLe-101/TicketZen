@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TicketZen - Email Verification</title>
@@ -8,61 +8,61 @@
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/login_register.css" />
     <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
-            rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+      rel="stylesheet"
     />
     <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-</head>
-<body>
-<div class="container-fluid login-page">
-    <div class="login-box text-center">
+  </head>
+  <body>
+    <div class="container-fluid login-page">
+      <div class="login-box text-center">
         <div class="logo-section">
-            <h1 class="fw-bold text-accent">
-                TicketZ<span class="text-divider">en</span>
-            </h1>
+          <h1 class="fw-bold text-accent">
+            TicketZ<span class="text-divider">en</span>
+          </h1>
         </div>
         <div class="verification-content">
-            <i class="fas fa-envelope-open-text fa-4x mb-4 text-primary"></i>
-            <h2>Check Your Email</h2>
-            <p>We've sent a verification link to <strong><%= email %></strong></p>
-            <p class="mt-3">
-                Please check your email and click on the verification link to
-                complete your registration.
-            </p>
-            <div class="mt-4">
-                <a href="/auth/login" class="d-block btn btn-accent rounded-2"
-                >Back to Login</a
-                >
-                <button onclick="resendEmail()" class="btn btn-link text-divider">
-                    Resend Email
-                </button>
-            </div>
+          <i class="fas fa-envelope-open-text fa-4x mb-4 text-primary"></i>
+          <h2>Check Your Email</h2>
+          <p>We've sent a verification link to <strong><%= email %></strong></p>
+          <p class="mt-3">
+            Please check your email and click on the verification link to
+            complete your registration.
+          </p>
+          <div class="mt-4">
+            <a href="/auth/login" class="d-block btn btn-accent rounded-2"
+              >Back to Login</a
+            >
+            <button onclick="resendEmail()" class="btn btn-link text-divider">
+              Resend Email
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<script src="/js/toast.js"></script>
-<script src="/js/main.js"></script>
-<script>
-    function resendEmail() {
+    <script src="/js/toast.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+      function resendEmail() {
         fetch("/auth/resend-email", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: "<%= email %>" }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: "<%= email %>" }),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    Toast.success("Verification email resent successfully!");
-                } else {
-                    Toast.error("Error resending verification email");
-                }
-            });
-    }
-</script>
-</body>
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              Toast.success("Verification email resent successfully!");
+            } else {
+              Toast.error("Error resending verification email");
+            }
+          });
+      }
+    </script>
+  </body>
 </html>

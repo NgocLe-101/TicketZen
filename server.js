@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -43,21 +42,21 @@ app.use(authRoutes);
 app.use(indexRoutes);
 app.use(productRoutes);
 app.use(detailRoutes);
-app.use('', filterRoutes);
+app.use("", filterRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res) => {
-  res.render("404")
+  res.render("404");
 });
 
-const PORT = 3000
+const PORT = 3000;
 
-const server = app.listen(PORT, ()=>{
-  console.log(`localhost:${PORT}`)
-})
+const server = app.listen(PORT, () => {
+  console.log(`localhost:${PORT}`);
+});
 
-process.on('SIGINT', () =>{
-  server.close(() => console.log('Exit server express'))
-})
+process.on("SIGINT", () => {
+  server.close(() => console.log("Exit server express"));
+});
 // module.exports = app;

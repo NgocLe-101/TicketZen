@@ -1,0 +1,16 @@
+#toast-container {
+  z-index: 99;
+}
+
+.toast {
+  opacity: 1 !important;
+}
+
+.toast.hide {
+  display: none;
+}
+
+.bg-success .btn-close,
+.bg-danger .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}

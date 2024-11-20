@@ -4,18 +4,18 @@ const passport = require("passport");
 const authController = require("../controllers/authController");
 
 router.get("/auth", (req, res) => {
-    res.redirect("/auth/login");
+  res.redirect("/auth/login");
 });
 
 // Routes for login
 router.get("/auth/login", authController.getLoginPage);
 router.post(
-    "/auth/login",
-    passport.authenticate("local-login", {
-        successRedirect: "/?login=success",
-        failureRedirect: "/auth/login",
-        failureFlash: true,
-    })
+  "/auth/login",
+  passport.authenticate("local-login", {
+    successRedirect: "/?login=success",
+    failureRedirect: "/auth/login",
+    failureFlash: true,
+  })
 );
 
 // Routes for register
