@@ -4,7 +4,8 @@ title: 'Movies' }) -%>
 <!-- Product Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="row g-0 gx-3 align-items-center mb-4">
+
+        <div class="row g-0 gx-3 mb-4">
             <!-- Genres Filter -->
             <div class="col-md-2">
                 <label for="genre" class="form-label text-white">Genres</label>
@@ -55,7 +56,7 @@ title: 'Movies' }) -%>
             <!-- Price Filter -->
             <div class="col-md-2">
                 <label for="price-max" class="form-label text-white">Price ($)</label>
-                <div class="input-group">
+                <div class="input w-100">
                     <input
                             type="number"
                             id="price-max"
@@ -63,13 +64,17 @@ title: 'Movies' }) -%>
                             placeholder="Max Price"
                             min="0"
                     >
-                    <button class="btn btn-primary" id="price-filter-btn">Filter</button>
+                    
                 </div>
+            </div>
+            <!-- Filter Button -->
+            <div class="col-md-2" style="padding-top: 1.75rem;">
+                <button class="btn btn-success w-100 h-100" id="filter">Filter</button>
             </div>
         </div>
         <!-- Search Box -->
-        <div class="row g-0 gx-3 align-items-center margin-bottom">
-            <div class="col-md-8">
+        <div class="row g-0 gx-3 margin-bottom">
+            <div class="col-md-10">
                 <input
                         type="text"
                         id="search-box"
@@ -77,10 +82,11 @@ title: 'Movies' }) -%>
                         placeholder="Search movies..."
                 >
             </div>
-            <div class="col-md-4">
-                <button class="btn btn-success w-100" id="search-btn">Search</button>
+            <div class="col-md-2">
+                <button class="btn btn-success w-100 h-100" id="search">Search</button>
             </div>
         </div>
+
         <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
                 <div class="row g-4 movies-container">
