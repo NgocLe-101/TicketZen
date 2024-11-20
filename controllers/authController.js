@@ -1,22 +1,10 @@
 const passport = require("passport");
-const passport = require("passport");
 // Controller register
 exports.getRegisterPage = (req, res) => {
   const message = req.flash("error");
   res.render("register", { errorMessage: message }); // Render register page
-  const message = req.flash("error");
-  res.render("register", { errorMessage: message }); // Render register page
 };
 
-exports.postRegister = async (req, res, next) => {
-  passport.authenticate("local-register", async (err, user, info) => {
-    if (err) return next(err);
-    if (!user) {
-      req.flash("error", info.message);
-      return res.redirect("/auth/register");
-    }
-    res.render("verify_email", { email: user.email });
-  })(req, res, next);
 exports.postRegister = async (req, res, next) => {
   passport.authenticate("local-register", async (err, user, info) => {
     if (err) return next(err);
@@ -30,7 +18,6 @@ exports.postRegister = async (req, res, next) => {
 
 // Controller login
 exports.getLoginPage = (req, res) => {
-  res.render("login", { errorMessage: req.flash("error") }); // Render login page
   res.render("login", { errorMessage: req.flash("error") }); // Render login page
 };
 

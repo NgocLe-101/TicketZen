@@ -6,8 +6,8 @@ require("./dbs/init.postgresql");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
-const filterRoutes = require("./routes/search_filter.route");
 
+const filterRoutes = require("./routes/search_filter.route");
 const authRoutes = require("./routes/authRoutes");
 const indexRoutes = require("./routes/indexRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -18,19 +18,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Session middleware
-// app.use(
-//     session({
-//       secret: process.env.SESSION_SECRET,
-//       resave: false,
-//       saveUninitialized: false,
-//       cookie: { maxAge: 60000 },
-//     })
-// );
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60000 },
+  })
+);
 
 app.use(flash());
 // Passport middleware
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 
 // Passport config
 require("./configs/passport")(passport);
@@ -42,7 +42,7 @@ app.use(authRoutes);
 app.use(indexRoutes);
 app.use(productRoutes);
 app.use(detailRoutes);
-app.use("", filterRoutes);
+app.use(filterRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -50,13 +50,4 @@ app.use((req, res) => {
   res.render("404");
 });
 
-const PORT = 3000;
-
-const server = app.listen(PORT, () => {
-  console.log(`localhost:${PORT}`);
-});
-
-process.on("SIGINT", () => {
-  server.close(() => console.log("Exit server express"));
-});
-// module.exports = app;
+module.exports = app;
