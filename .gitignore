@@ -3,4 +3,4 @@ node_modules
 ca-certificate.crt
 .idea/
 .vercel
-ca.pem
+**/ca.pem

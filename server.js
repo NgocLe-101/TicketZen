@@ -2,11 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
-const dbConnection = require("./dbs/init.postgresql");
+require("./dbs/init.postgresql");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
 
+const filterRoutes = require("./routes/search_filter.route");
 const authRoutes = require("./routes/authRoutes");
 const indexRoutes = require("./routes/indexRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -32,16 +33,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Passport config
-require("./config/passport")(passport);
+require("./configs/passport")(passport);
 
 app.set("view engine", "ejs");
 // init DB
-dbConnection;
 app.set("views", path.join(__dirname, "views"));
 app.use(authRoutes);
 app.use(indexRoutes);
 app.use(productRoutes);
 app.use(detailRoutes);
+app.use(filterRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
