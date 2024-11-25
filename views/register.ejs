@@ -37,6 +37,7 @@
                 id="username"
                 name="username"
                 placeholder="Choose a username"
+                pattern="[a-zA-Z0-9]{3,}"
                 required
               />
             </div>
@@ -52,6 +53,7 @@
                 id="email"
                 name="email"
                 placeholder="Enter your email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                 required
               />
             </div>
@@ -67,6 +69,7 @@
                 id="password"
                 name="password"
                 placeholder="Choose a password"
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
                 required
               />
             </div>
