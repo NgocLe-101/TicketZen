@@ -87,3 +87,71 @@ exports.ensureAuthenticated = (req, res, next) => {
   }
   res.redirect("/auth/login");
 };
+
+// Controller forgot password
+exports.getForgotPasswordPage = (req, res) => {
+  res.render("forgot-password", { errorMessage: "" });
+};
+
+exports.postForgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  // Kiểm tra nếu email có tồn tại trong hệ thống
+  const user = await getUserByEmail(email);
+  if (!user) {
+    return res.render("forgot-password", {
+      errorMessage: "Email không tồn tại trong hệ thống",
+    });
+  }
+
+  // Tạo mã xác nhận ngẫu nhiên
+  const verificationCode = crypto.randomBytes(4).toString("hex").toUpperCase(); 
+
+  // Lưu mã xác nhận vào cơ sở dữ liệu hoặc session
+  // Giả sử bạn có chức năng lưu mã này vào DB và kiểm tra sau này
+
+  // Gửi mã xác nhận qua email
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: "Mã xác nhận thay đổi mật khẩu",
+    text: `Mã xác nhận của bạn là: ${verificationCode}. Hãy nhập mã này để tiếp tục quá trình thay đổi mật khẩu.`,
+  };
+
+  try {
+    // Gửi email
+    await transporter.sendMail(mailOptions);
+
+    // Chuyển người dùng tới trang nhập mã xác nhận
+    res.redirect(`/auth/reset-password?email=${email}`);
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.render("forgot-password", {
+      errorMessage: "Đã xảy ra lỗi trong quá trình gửi email. Vui lòng thử lại.",
+    });
+  }
+};
+
+// Controller reset password
+exports.getResetPasswordPage = (req, res) => {
+  const { email } = req.query;
+  res.render("reset-password", { email: email, errorMessage: "" });
+};
+
+exports.postResetPassword = async (req, res) => {
+  const { email, verificationCode, newPassword } = req.body;
+
+  // Kiểm tra mã xác nhận từ DB hoặc session
+  const user = await getUserByEmail(email);
+  if (!user || user.verificationCode !== verificationCode) {
+    return res.render("reset-password", {
+      email,
+      errorMessage: "Mã xác nhận không đúng.",
+    });
+  }
+
+  // Cập nhật mật khẩu mới cho người dùng
+  await updateUserPassword(email, newPassword);
+
+  res.redirect("/auth/login");
+};
