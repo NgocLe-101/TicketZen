@@ -64,6 +64,22 @@ class UserModel {
       throw new Error(error.message);
     }
   };
+
+  static getUserByEmail = async (email) => {
+    try {
+      return await db("users").where({ email }).first();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static saveVerificationCode = async (userId, verificationCode) => {
+    try {
+      await db("users").where({ id: userId }).update({ verificationCode });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
 }
 
 module.exports = UserModel;

@@ -1,6 +1,7 @@
 const passport = require("passport");
 const transporter = require("../configs/nodemailer");
 const User = require("../models/user.model");
+const crypto = require("crypto");
 // Controller register
 exports.getRegisterPage = (req, res) => {
   res.render("register", { errorMessage: null }); // Render register page
@@ -97,12 +98,12 @@ exports.postForgotPassword = async (req, res) => {
   const { email } = req.body;
 
   // Kiểm tra nếu email có tồn tại trong hệ thống
-  const user = await getUserByEmail(email);
-  if (!user) {
-    return res.render("forgot-password", {
-      errorMessage: "Email không tồn tại trong hệ thống",
-    });
-  }
+  // const user = await User.getUserByEmail(email);
+  // if (!user) {
+  //   return res.render("forgot-password", {
+  //     errorMessage: "Email không tồn tại trong hệ thống",
+  //   });
+  // }
 
   // Tạo mã xác nhận ngẫu nhiên
   const verificationCode = crypto.randomBytes(4).toString("hex").toUpperCase(); 
