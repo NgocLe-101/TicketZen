@@ -5,7 +5,6 @@ const path = require("path");
 // require("./dbs/init.postgresql");
 const session = require("express-session");
 const passport = require("passport");
-const flash = require("connect-flash");
 
 const filterRoutes = require("./routes/search_filter.route");
 const authRoutes = require("./routes/authRoutes");
@@ -27,7 +26,6 @@ app.use(
   })
 );
 
-app.use(flash());
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
