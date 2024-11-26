@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Verification</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/verification_page.css" />
+  </head>
+  <body>
+    <div class="container-fluid center-page">
+      <div class="verification-container">
+        <h1>Account Verification</h1>
+        <% if (verificationSuccess) { %>
+        <p>Your account has been successfully verified!</p>
+        <% } else { %>
+        <p>Verification failed. Please try again or contact support.</p>
+        <% } %>
+        <button onclick="window.location.href='/auth/login'">
+          Go to Login Page
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
