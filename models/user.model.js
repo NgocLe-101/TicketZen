@@ -75,7 +75,22 @@ class UserModel {
 
   static saveVerificationCode = async (userId, verificationCode) => {
     try {
-      await db("users").where({ id: userId }).update({ verificationCode });
+      await db("verification_codes").insert({
+        user_id: userId,
+        verification_code: verificationCode,
+        expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static getVerificationCode = async (userId) => {
+    try {
+      return await db("verification_codes")
+        .where({ user_id: userId })
+        .where("expires", ">", new Date())
+        .first();
     } catch (error) {
       throw new Error(error.message);
     }
