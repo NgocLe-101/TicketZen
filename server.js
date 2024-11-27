@@ -11,7 +11,6 @@ const authRoutes = require("./routes/authRoutes");
 const indexRoutes = require("./routes/indexRoutes");
 const productRoutes = require("./routes/productRoutes");
 const detailRoutes = require("./routes/detailRoutes");
-const forgotPasswordRoute = require("./routes/forgot-password.route");
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));

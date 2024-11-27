@@ -97,41 +97,37 @@ exports.getForgotPasswordPage = (req, res) => {
 exports.postForgotPassword = async (req, res) => {
   const { email } = req.body;
 
-  // Kiểm tra nếu email có tồn tại trong hệ thống
+  // Check if email exists in the database
   const user = await User.getUserByEmail(email);
   if (!user) {
     return res.render("forgot-password", {
-      errorMessage: "Email không tồn tại trong hệ thống",
+      errorMessage: "Email is not exist.",
     });
   }
 
-  // Tạo mã xác nhận ngẫu nhiên
   const verificationCode = crypto.randomBytes(4).toString("hex").toUpperCase(); 
+  // Save verification code to database
+  await User.saveVerificationCode(user.id, verificationCode);
 
-  // Lưu mã xác nhận vào cơ sở dữ liệu
-  // await User.saveVerificationCode(user.id, verificationCode);
-
-  // Gửi mã xác nhận qua email
   const mailOptions = {
     from: {
         name: "TicketZen",
         address: process.env.EMAIL,
       },
     to: email,
-    subject: "Mã xác nhận thay đổi mật khẩu",
-    text: `Mã xác nhận của bạn là: ${verificationCode}. Hãy nhập mã này để tiếp tục quá trình thay đổi mật khẩu.`,
+    subject: "Password Reset Verification Code",
+    text: `Your verification code is: ${verificationCode}. Please enter this code to proceed with your password reset process.`,
   };
 
   try {
-    // Gửi email
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions); // Send email
 
-    // Chuyển người dùng tới trang nhập mã xác nhận
+    // Redirect to reset password page
     res.redirect(`/auth/reset-password?email=${email}`);
   } catch (error) {
     console.error("Error sending email:", error);
     res.render("forgot-password", {
-      errorMessage: "Đã xảy ra lỗi trong quá trình gửi email. Vui lòng thử lại.",
+      errorMessage: "An error occurred while sending the email. Please try again.",
     });
   }
 };
@@ -145,28 +141,27 @@ exports.getResetPasswordPage = (req, res) => {
 exports.postResetPassword = async (req, res) => {
   const { email, verificationCode, newPassword } = req.body;
 
-  // Kiểm tra mã xác nhận từ DB
   const user = await User.getUserByEmail(email);
   if (!user) {
     return res.render("reset-password", {
       email,
-      errorMessage: "Email không tồn tại trong hệ thống.",
+      errorMessage: "Email is not exist.",
     });
   }
 
   const codeRecord = await User.getVerificationCode(user.id);
+
   if (!codeRecord || codeRecord.verification_code !== verificationCode) {
     return res.render("reset-password", {
       email,
-      errorMessage: "Mã xác nhận không đúng hoặc đã hết hạn.",
+      errorMessage: "Verification code is expired or invalid.",
     });
   }
 
-  // Cập nhật mật khẩu mới cho người dùng
+  // Update new password
   await User.updatePassword(user.id, newPassword);
 
-  // Xóa mã xác nhận sau khi sử dụng
-  await db("verification_codes").where({ user_id: user.id }).del();
+  // await db("verification_codes").where({ user_id: user.id }).del();
 
   res.redirect("/auth/login");
 };

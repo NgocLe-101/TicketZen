@@ -78,7 +78,7 @@ class UserModel {
       await db("verification_codes").insert({
         user_id: userId,
         verification_code: verificationCode,
-        expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
+        expires: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
       });
     } catch (error) {
       throw new Error(error.message);
@@ -92,6 +92,25 @@ class UserModel {
         .where("expires", ">", new Date())
         .first();
     } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static updatePassword = async (userId, newPassword) => {
+    const trx = await db.transaction();
+    try {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      // Update new password
+      await trx("users").where({ id: userId }).update({
+        password: hashedPassword,
+      });
+
+      // Delete verification code
+      await trx("verification_codes").where({ user_id: userId }).del();
+
+      await trx.commit();
+    } catch (error) {
+      await trx.rollback();
       throw new Error(error.message);
     }
   };
