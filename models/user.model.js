@@ -64,6 +64,56 @@ class UserModel {
       throw new Error(error.message);
     }
   };
+
+  static getUserByEmail = async (email) => {
+    try {
+      return await db("users").where({ email }).first();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static saveVerificationCode = async (userId, verificationCode) => {
+    try {
+      await db("verification_codes").insert({
+        user_id: userId,
+        verification_code: verificationCode,
+        expires: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static getVerificationCode = async (userId) => {
+    try {
+      return await db("verification_codes")
+        .where({ user_id: userId })
+        .where("expires", ">", new Date())
+        .first();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static updatePassword = async (userId, newPassword) => {
+    const trx = await db.transaction();
+    try {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      // Update new password
+      await trx("users").where({ id: userId }).update({
+        password: hashedPassword,
+      });
+
+      // Delete verification code
+      await trx("verification_codes").where({ user_id: userId }).del();
+
+      await trx.commit();
+    } catch (error) {
+      await trx.rollback();
+      throw new Error(error.message);
+    }
+  };
 }
 
 module.exports = UserModel;
