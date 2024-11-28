@@ -1,4 +1,4 @@
-// require("dotenv").config();
+require("dotenv").config();
 // const fs = require("fs");
 // const path = require("path");
 // const sslCert = fs.readFileSync(path.join(__dirname, "ca.pem"));
@@ -11,10 +11,10 @@ const config = {
       user: process.env.DB_USER,
       password: process.env.DB_PASS,
       port: process.env.DB_PORT,
-      ssl: {
-        rejectUnauthorized: false,
-        // ca: sslCert,
-      },
+      // ssl: {
+      //   rejectUnauthorized: false,
+      //   // ca: sslCert,
+      // },
     },
 
     migrations: {

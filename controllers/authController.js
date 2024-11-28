@@ -1,6 +1,7 @@
 const passport = require("passport");
 const transporter = require("../configs/nodemailer");
 const User = require("../models/user.model");
+
 // Controller register
 exports.getRegisterPage = (req, res) => {
   res.render("register", { errorMessage: null }); // Render register page
@@ -13,7 +14,7 @@ exports.postRegister = async (req, res, next) => {
       return res.render("register", { errorMessage: info.message });
     }
     // Send verification email
-    const message = await transporter.sendMail({
+    await transporter.sendMail({
       from: {
         name: "TicketZen",
         address: process.env.EMAIL,
@@ -26,7 +27,6 @@ exports.postRegister = async (req, res, next) => {
         <a href="${process.env.CLIENT_URL}/auth/verify-email?token=${user.verification_token}">Verify your email</a>
         `,
     });
-    console.log("Email sent: " + message.messageId);
     res.render("verify_email", { email: user.email });
   })(req, res, next);
 };
@@ -42,7 +42,7 @@ exports.postLogin = async (req, res, next) => {
     if (!user) {
       return res.render("login", { errorMessage: info.message });
     }
-    req.logIn(user, (err) => {
+    req.logIn({ id: user.id }, (err) => {
       if (err) return next(err);
       return res.redirect("/?login=success");
     });

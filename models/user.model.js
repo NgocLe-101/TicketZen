@@ -1,13 +1,19 @@
 const db = require("../dbs/db");
 const bcrypt = require("bcrypt");
-
+const { performance } = require("perf_hooks");
 class UserModel {
   static createUser = async ({ username, email, password }) => {
+    console.log("Creating user");
+    const startTimer = performance.now();
     const trx = await db.transaction();
     try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const verification_token = await bcrypt.hash(email, 20);
-
+      const [hashedPassword, verification_token] = await Promise.all([
+        bcrypt.hash(password, 10),
+        bcrypt.hash(email, 10),
+      ]);
+      const endTimer = performance.now();
+      console.log(`Hashing took ${(endTimer - startTimer).toFixed(2)} ms`);
+      const userInsertStart = performance.now();
       const [data] = await trx("users")
         .insert({
           username,
@@ -15,12 +21,20 @@ class UserModel {
           password: hashedPassword,
         })
         .returning("id");
-
+      const userInsertEnd = performance.now();
+      console.log(
+        `User insert took ${(userInsertEnd - userInsertStart).toFixed(2)} ms`
+      );
+      const tokenInsertStart = performance.now();
       await trx("verification_tokens").insert({
         user_id: data.id,
         token: verification_token,
         expires: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
       });
+      const tokenInsertEnd = performance.now();
+      console.log(
+        `Token insert took ${(tokenInsertEnd - tokenInsertStart).toFixed(2)} ms`
+      );
 
       await trx.commit();
       return { id: data.id, username, email, verification_token };
@@ -33,6 +47,31 @@ class UserModel {
   static findOne = async (condition) => {
     try {
       return await db("users").where(condition).first();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static findOneWithUsernameOrEmail = async (username, email) => {
+    try {
+      return await db("users")
+        .where("username", username)
+        .orWhere("email", email)
+        .first();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  static findUserById = async (id) => {
+    try {
+      return await db.raw(
+        `
+        SELECT id, username, email, state
+        FROM users
+        WHERE id = ${id}
+        `
+      );
     } catch (error) {
       throw new Error(error.message);
     }
