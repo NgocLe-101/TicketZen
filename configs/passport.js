@@ -51,7 +51,10 @@ module.exports = function (passport) {
             });
           }
 
-          const existingUser = await User.findOne({ email, username });
+          const existingUser = await User.findOneWithUsernameOrEmail(
+            username,
+            email
+          );
           if (existingUser) {
             return done(null, false, {
               message: "Email or username already registered",
@@ -73,12 +76,13 @@ module.exports = function (passport) {
   );
 
   passport.serializeUser((user, done) => {
+    console.log(user);
     done(null, user.id);
   });
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await User.findById(id);
+      const user = await User.findUserById(id);
       done(null, user);
     } catch (err) {
       done(err);

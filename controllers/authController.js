@@ -14,7 +14,7 @@ exports.postRegister = async (req, res, next) => {
       return res.render("register", { errorMessage: info.message });
     }
     // Send verification email
-    const message = await transporter.sendMail({
+    await transporter.sendMail({
       from: {
         name: "TicketZen",
         address: process.env.EMAIL,
@@ -27,7 +27,6 @@ exports.postRegister = async (req, res, next) => {
         <a href="${process.env.CLIENT_URL}/auth/verify-email?token=${user.verification_token}">Verify your email</a>
         `,
     });
-    console.log("Email sent: " + message.messageId);
     res.render("verify_email", { email: user.email });
   })(req, res, next);
 };
@@ -43,10 +42,13 @@ exports.postLogin = async (req, res, next) => {
     if (!user) {
       return res.render("login", { errorMessage: info.message });
     }
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      return res.redirect("/?login=success");
-    });
+    req.logIn(
+      { id: user.id, username: user.username, email: user.email },
+      (err) => {
+        if (err) return next(err);
+        return res.redirect("/?login=success");
+      }
+    );
   })(req, res, next);
 };
 
@@ -76,9 +78,17 @@ exports.resendEmail = async (req, res) => {
   res.json({ success: true });
 };
 
+// Controller profile
+exports.getProfilePage = (req, res) => {
+  console.log(req.user);
+  res.render("profile", { user: req.user }); // Render profile page
+};
+
 exports.logout = (req, res) => {
-  req.logout();
-  res.redirect("/auth/login");
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect("/auth/login");
+  });
 };
 
 // Middleware to check if user is authenticated
@@ -105,15 +115,15 @@ exports.postForgotPassword = async (req, res) => {
     });
   }
 
-  const verificationCode = crypto.randomBytes(4).toString("hex").toUpperCase(); 
+  const verificationCode = crypto.randomBytes(4).toString("hex").toUpperCase();
   // Save verification code to database
   await User.saveVerificationCode(user.id, verificationCode);
 
   const mailOptions = {
     from: {
-        name: "TicketZen",
-        address: process.env.EMAIL,
-      },
+      name: "TicketZen",
+      address: process.env.EMAIL,
+    },
     to: email,
     subject: "Password Reset Verification Code",
     text: `Your verification code is: ${verificationCode}. Please enter this code to proceed with your password reset process.`,
@@ -127,7 +137,8 @@ exports.postForgotPassword = async (req, res) => {
   } catch (error) {
     console.error("Error sending email:", error);
     res.render("forgot-password", {
-      errorMessage: "An error occurred while sending the email. Please try again.",
+      errorMessage:
+        "An error occurred while sending the email. Please try again.",
     });
   }
 };
