@@ -25,6 +25,14 @@ router.post("/auth/register", authController.postRegister);
 router.get("/auth/verify-email", authController.verifyEmail);
 router.post("/auth/resend-email", authController.resendEmail);
 
+// Routes for forgot password
+router.get("/auth/forgot-password", authController.getForgotPasswordPage);
+router.post("/auth/forgot-password", authController.postForgotPassword);
+
+// Routes for reset password
+router.get("/auth/reset-password", authController.getResetPasswordPage);
+router.post("/auth/reset-password", authController.postResetPassword);
+
 router.post("/auth/logout", authController.logout);
 
 module.exports = router;
