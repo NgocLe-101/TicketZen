@@ -42,10 +42,13 @@ exports.postLogin = async (req, res, next) => {
     if (!user) {
       return res.render("login", { errorMessage: info.message });
     }
-    req.logIn({ id: user.id }, (err) => {
-      if (err) return next(err);
-      return res.redirect("/?login=success");
-    });
+    req.logIn(
+      { id: user.id, username: user.username, email: user.email },
+      (err) => {
+        if (err) return next(err);
+        return res.redirect("/?login=success");
+      }
+    );
   })(req, res, next);
 };
 
@@ -75,9 +78,17 @@ exports.resendEmail = async (req, res) => {
   res.json({ success: true });
 };
 
+// Controller profile
+exports.getProfilePage = (req, res) => {
+  console.log(req.user);
+  res.render("profile", { user: req.user }); // Render profile page
+};
+
 exports.logout = (req, res) => {
-  req.logout();
-  res.redirect("/auth/login");
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect("/auth/login");
+  });
 };
 
 // Middleware to check if user is authenticated

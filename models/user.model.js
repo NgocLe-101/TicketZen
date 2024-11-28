@@ -65,13 +65,15 @@ class UserModel {
 
   static findUserById = async (id) => {
     try {
-      return await db.raw(
+      const result = await db.raw(
         `
         SELECT id, username, email, state
         FROM users
         WHERE id = ${id}
         `
       );
+      const user = result.rows[0];
+      return user;
     } catch (error) {
       throw new Error(error.message);
     }

@@ -3,6 +3,12 @@ const router = express.Router();
 const passport = require("passport");
 const authController = require("../controllers/authController");
 
+router.get(
+  "/profile",
+  authController.ensureAuthenticated, // Check if user is authenticated
+  authController.getProfilePage
+);
+
 router.get("/auth", (req, res) => {
   res.redirect("/auth/login");
 });
@@ -19,6 +25,6 @@ router.post("/auth/register", authController.postRegister);
 router.get("/auth/verify-email", authController.verifyEmail);
 router.post("/auth/resend-email", authController.resendEmail);
 
-router.get("/auth/logout", authController.logout);
+router.post("/auth/logout", authController.logout);
 
 module.exports = router;
