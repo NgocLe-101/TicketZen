@@ -12,21 +12,21 @@ exports.getIndexPage = async (req, res) => {
     {
       name: "Hot New Release",
       movies: products
-          .slice(0, 4)
-          .map((product) => ({ ...product, tag: "NEW" })),
+        .slice(0, 4)
+        .map((product) => ({ ...product, tag: "NEW" })),
     },
     {
       name: "Best Seller",
       movies: products
-          .slice(4, 8)
-          .map((product) => ({ ...product, tag: "HOT" })),
+        .slice(4, 8)
+        .map((product) => ({ ...product, tag: "HOT" })),
     },
     {
       name: "Top Rated",
       movies: products
-          .sort((a, b) => b.rating - a.rating)
-          .slice(0, 4)
-          .map((product) => ({ ...product, tag: "TOP" })),
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 4)
+        .map((product) => ({ ...product, tag: "TOP" })),
     },
   ];
   const slideShow = products.slice(0, 4);
