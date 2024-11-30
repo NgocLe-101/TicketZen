@@ -1,8 +1,12 @@
-const LocalStrategy = require("passport-local").Strategy;
+const passport = require("passport");
+const { Strategy: LocalStrategy } = require("passport-local");
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
+const { Strategy: GoogleStrategy } = require("passport-google-oauth20");
+const { Strategy: FacebookStrategy } = require("passport-facebook");
 
-module.exports = function (passport) {
+module.exports = function () {
+  // Local Login Strategy
   passport.use(
     "local-login",
     new LocalStrategy(
@@ -75,14 +79,82 @@ module.exports = function (passport) {
     )
   );
 
+  // Google OAuth Strategy
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: `${process.env.CLIENT_URL}/auth/google/callback`, // Fixed string interpolation
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          let user = await User.findOne({
+            provider: "google",
+            provider_id: profile.id,
+          });
+
+          if (!user) {
+            user = await User.createUserByProvide({
+              provider: "google",
+              provider_id: profile.id,
+              email: profile.emails?.[0]?.value || null,
+              username: profile.displayName || "Google User",
+            });
+          }
+
+          return done(null, user);
+        } catch (err) {
+          console.error("Error in Google Strategy:", err);
+          return done(err);
+        }
+      }
+    )
+  );
+
+  // Facebook OAuth Strategy
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_APP_ID,
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        callbackURL: `${process.env.CLIENT_URL}/auth/facebook/callback`, // Fixed string interpolation
+        profileFields: ["id", "displayName", "emails", "photos"],
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          let user = await User.findOne({
+            provider: "facebook",
+            provider_id: profile.id,
+          });
+
+          if (!user) {
+            user = await User.createUserByProvide({
+              provider: "facebook",
+              provider_id: profile.id,
+              email: profile.emails?.[0]?.value || null,
+              username: profile.displayName || "Facebook User",
+            });
+          }
+
+          return done(null, user);
+        } catch (err) {
+          console.error("Error in Facebook Strategy:", err);
+          return done(err);
+        }
+      }
+    )
+  );
+
+  // Serialize User into Session
   passport.serializeUser((user, done) => {
-    console.log(user);
-    done(null, user.id);
+    done(null, user.id); // Store user ID in session
   });
 
+  // Deserialize User from Session
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await User.findUserById(id);
+      const user = await User.findUserById(id); // Fetch user by ID
       done(null, user);
     } catch (err) {
       done(err);

@@ -155,6 +155,65 @@ class UserModel {
       throw new Error(error.message);
     }
   };
+
+  static createUserByProvide = async ({
+    provide,
+    provide_id,
+    email,
+    username,
+  }) => {
+    console.log(`Creating user via ${provide}`);
+    const startTimer = performance.now();
+    const trx = await db.transaction();
+
+    try {
+      // Hash email for verification token
+      const [verification_token] = await Promise.all([bcrypt.hash(email, 10)]);
+      const endTimer = performance.now();
+      console.log(`Hashing took ${(endTimer - startTimer).toFixed(2)} ms`);
+
+      // Insert user into 'users' table
+      const userInsertStart = performance.now();
+      const [data] = await trx("users")
+        .insert({
+          provider: provide,
+          provider_id: provide_id,
+          email,
+          username,
+          password: null, // No password needed for social login
+        })
+        .returning("id");
+      const userInsertEnd = performance.now();
+      console.log(
+        `User insert took ${(userInsertEnd - userInsertStart).toFixed(2)} ms`
+      );
+
+      // Insert verification token into 'verification_tokens' table
+      const tokenInsertStart = performance.now();
+      await trx("verification_tokens").insert({
+        user_id: data.id,
+        token: verification_token,
+        expires: new Date(Date.now() + 30 * 60 * 1000), // Token expires in 30 minutes
+      });
+      const tokenInsertEnd = performance.now();
+      console.log(
+        `Token insert took ${(tokenInsertEnd - tokenInsertStart).toFixed(2)} ms`
+      );
+
+      // Commit transaction
+      await trx.commit();
+
+      return {
+        id: data.id,
+        username,
+        email,
+        verification_token,
+      };
+    } catch (error) {
+      await trx.rollback();
+      throw new Error(error.message);
+    }
+  };
 }
 
 module.exports = UserModel;
