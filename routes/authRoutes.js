@@ -35,21 +35,34 @@ router.post("/auth/reset-password", authController.postResetPassword);
 
 router.post("/auth/logout", authController.logout);
 
-
 // Google Login Route
-router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 // Google Callback Route
-router.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/" }), (req, res) => {
-  res.redirect("/profile");
-});
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("/profile");
+  }
+);
 
 // Facebook Login Route
-router.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email"] }));
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["email"] })
+);
 
 // Facebook Callback Route
-router.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/" }), (req, res) => {
-  res.redirect("/profile");
-});
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("/profile");
+  }
+);
 
 module.exports = router;

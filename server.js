@@ -21,25 +21,25 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL,
 });
 
 // Session middleware
 app.use(
-    session({
-        store: new PgSession({
-            pool: pool,
-            tableName: "users_session",
-        }),
-        secret: process.env.SESSION_SECRET, // Secret used to sign the session ID cookie
-        resave: false, // Don't save session if unmodified
-        saveUninitialized: false, // Don't create session until something stored
-        cookie: {
-            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-            secure: process.env.NODE_ENV === "production", // Ensure cookies are only used over HTTPS
-            httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-        },
-    })
+  session({
+    store: new PgSession({
+      pool: pool,
+      tableName: "users_session",
+    }),
+    secret: process.env.SESSION_SECRET, // Secret used to sign the session ID cookie
+    resave: false, // Don't save session if unmodified
+    saveUninitialized: false, // Don't create session until something stored
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      secure: process.env.NODE_ENV === "production", // Ensure cookies are only used over HTTPS
+      httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+    },
+  })
 );
 
 // Passport middleware
@@ -62,7 +62,7 @@ app.use(filterRoutes);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res) => {
-    res.render("404");
+  res.render("404");
 });
 
 module.exports = app;

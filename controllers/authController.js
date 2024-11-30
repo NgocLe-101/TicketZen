@@ -176,5 +176,3 @@ exports.postResetPassword = async (req, res) => {
 
   res.redirect("/auth/login");
 };
-
-

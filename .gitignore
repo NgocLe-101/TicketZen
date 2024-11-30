@@ -3,6 +3,6 @@ node_modules/
 .env
 .idea/
 .vercel
-ca.pem
+**/ca.pem
 ca-certificate.crt
 .vercel

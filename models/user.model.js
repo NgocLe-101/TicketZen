@@ -156,7 +156,12 @@ class UserModel {
     }
   };
 
-  static createUserByProvide = async ({ provide, provide_id, email, username }) => {
+  static createUserByProvide = async ({
+    provide,
+    provide_id,
+    email,
+    username,
+  }) => {
     console.log(`Creating user via ${provide}`);
     const startTimer = performance.now();
     const trx = await db.transaction();
@@ -170,16 +175,18 @@ class UserModel {
       // Insert user into 'users' table
       const userInsertStart = performance.now();
       const [data] = await trx("users")
-          .insert({
-            provider: provide,
-            provider_id: provide_id,
-            email,
-            username,
-            password: null, // No password needed for social login
-          })
-          .returning("id");
+        .insert({
+          provider: provide,
+          provider_id: provide_id,
+          email,
+          username,
+          password: null, // No password needed for social login
+        })
+        .returning("id");
       const userInsertEnd = performance.now();
-      console.log(`User insert took ${(userInsertEnd - userInsertStart).toFixed(2)} ms`);
+      console.log(
+        `User insert took ${(userInsertEnd - userInsertStart).toFixed(2)} ms`
+      );
 
       // Insert verification token into 'verification_tokens' table
       const tokenInsertStart = performance.now();
@@ -189,7 +196,9 @@ class UserModel {
         expires: new Date(Date.now() + 30 * 60 * 1000), // Token expires in 30 minutes
       });
       const tokenInsertEnd = performance.now();
-      console.log(`Token insert took ${(tokenInsertEnd - tokenInsertStart).toFixed(2)} ms`);
+      console.log(
+        `Token insert took ${(tokenInsertEnd - tokenInsertStart).toFixed(2)} ms`
+      );
 
       // Commit transaction
       await trx.commit();
@@ -205,7 +214,6 @@ class UserModel {
       throw new Error(error.message);
     }
   };
-
 }
 
 module.exports = UserModel;

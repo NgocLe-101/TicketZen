@@ -1,7 +1,7 @@
 require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
-const sslCert = fs.readFileSync('./ca.pem');
+const sslCert = fs.readFileSync("./ca.pem");
 const config = {
   development: {
     client: "pg", // Ensure the 'client' is specified as 'pg' for PostgreSQL
