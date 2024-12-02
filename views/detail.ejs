@@ -31,7 +31,11 @@ title: 'Movies' }) -%>
               value="1"
               style="max-width: 3rem"
             />
-            <button class="btn btn-outline-light flex-shrink-0" type="button">
+            <button
+              class="btn btn-outline-light flex-shrink-0 add-cart-item"
+              type="button"
+              data-id="<%= movie.id %>"
+            >
               <i class="bi-cart-fill me-1"></i>
               Add to cart
             </button>

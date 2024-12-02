@@ -72,9 +72,4 @@ const Toast = {
 // Make Toast globally available
 window.Toast = Toast;
 
-// Initialize when DOM is ready
-$(document).ready(() => {
-  Toast.init();
-});
-
 export default Toast;

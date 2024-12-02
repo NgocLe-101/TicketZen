@@ -12,6 +12,7 @@ import authRouter from "./components/auth/auth.router";
 import productRouter from "./components/product/product.router";
 import searchRouter from "./components/search/search.router";
 import profileRouter from "./components/user/user.router";
+import cartRouter from "./components/cart/cart.router";
 console.log("Server is starting...");
 
 // Middleware
@@ -55,6 +56,7 @@ app.use("/auth", authRouter);
 app.use("/movies", productRouter);
 app.use("/search", searchRouter);
 app.use("/profile", profileRouter);
+app.use("/cart", cartRouter);
 app.use("/", indexRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
