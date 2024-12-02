@@ -1,9 +1,7 @@
-const { randomInt } = require("crypto");
-const ProductModel = require("../models/product.model");
-const PromotionModel = require("../models/promotion.model");
+import ProductModel from "../product/product.model";
+import PromotionModel from "../product/promotion.model";
 
-// Controller index
-exports.getIndexPage = async (req, res) => {
+const getIndexPage = async (req, res) => {
   const [products, promotions] = await Promise.all([
     ProductModel.getAllProducts(),
     PromotionModel.getAllPromotions(),
@@ -32,3 +30,5 @@ exports.getIndexPage = async (req, res) => {
   const slideShow = products.slice(0, 4);
   res.render("index", { tabs, slideShow, promotions }); // Render index page
 };
+
+export default { getIndexPage };

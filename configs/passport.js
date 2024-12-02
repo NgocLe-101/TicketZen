@@ -1,9 +1,11 @@
 const passport = require("passport");
 const { Strategy: LocalStrategy } = require("passport-local");
 const bcrypt = require("bcrypt");
-const User = require("../models/user.model");
-const { Strategy: GoogleStrategy } = require("passport-google-oauth20");
-const { Strategy: FacebookStrategy } = require("passport-facebook");
+import User from "../components/user/user.model";
+import GoogleStrategy from "passport-google-oauth20";
+import FacebookStrategy from "passport-facebook";
+// const { Strategy: GoogleStrategy } = require("passport-google-oauth20");
+// const { Strategy: FacebookStrategy } = require("passport-facebook");
 
 module.exports = function () {
   // Local Login Strategy

@@ -1,8 +1,9 @@
-const db = require("../dbs/db");
-const bcrypt = require("bcrypt");
+import db from "../../dbs/db";
+import bcrypt from "bcrypt";
 const { performance } = require("perf_hooks");
-class UserModel {
-  static createUser = async ({ username, email, password }) => {
+
+const UserModel = {
+  createUser: async ({ username, email, password }) => {
     console.log("Creating user");
     const startTimer = performance.now();
     const trx = await db.transaction();
@@ -42,17 +43,16 @@ class UserModel {
       await trx.rollback();
       throw new Error(error.message);
     }
-  };
-
-  static findOne = async (condition) => {
+  },
+  findOne: async (condition) => {
     try {
       return await db("users").where(condition).first();
     } catch (error) {
       throw new Error(error.message);
     }
-  };
+  },
 
-  static findOneWithUsernameOrEmail = async (username, email) => {
+  findOneWithUsernameOrEmail: async (username, email) => {
     try {
       return await db("users")
         .where("username", username)
@@ -61,9 +61,9 @@ class UserModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  };
+  },
 
-  static findUserById = async (id) => {
+  findUserById: async (id) => {
     try {
       const result = await db.raw(
         `
@@ -77,9 +77,9 @@ class UserModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  };
+  },
 
-  static verifyUser = async (token) => {
+  verifyUser: async (token) => {
     try {
       const user = await db("users")
         .join("verification_tokens", "users.id", "verification_tokens.user_id")
@@ -104,17 +104,17 @@ class UserModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  };
+  },
 
-  static getUserByEmail = async (email) => {
+  getUserByEmail: async (email) => {
     try {
       return await db("users").where({ email }).first();
     } catch (error) {
       throw new Error(error.message);
     }
-  };
+  },
 
-  static saveVerificationCode = async (userId, verificationCode) => {
+  saveVerificationCode: async (userId, verificationCode) => {
     try {
       await db("verification_codes").insert({
         user_id: userId,
@@ -124,9 +124,9 @@ class UserModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  };
+  },
 
-  static getVerificationCode = async (userId) => {
+  getVerificationCode: async (userId) => {
     try {
       return await db("verification_codes")
         .where({ user_id: userId })
@@ -135,9 +135,9 @@ class UserModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  };
+  },
 
-  static updatePassword = async (userId, newPassword) => {
+  updatePassword: async (userId, newPassword) => {
     const trx = await db.transaction();
     try {
       const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -154,14 +154,9 @@ class UserModel {
       await trx.rollback();
       throw new Error(error.message);
     }
-  };
+  },
 
-  static createUserByProvide = async ({
-    provide,
-    provide_id,
-    email,
-    username,
-  }) => {
+  createUserByProvide: async ({ provide, provide_id, email, username }) => {
     console.log(`Creating user via ${provide}`);
     const startTimer = performance.now();
     const trx = await db.transaction();
@@ -213,7 +208,7 @@ class UserModel {
       await trx.rollback();
       throw new Error(error.message);
     }
-  };
-}
+  },
+};
 
-module.exports = UserModel;
+export default UserModel;

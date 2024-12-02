@@ -5,15 +5,13 @@ const path = require("path");
 const session = require("express-session");
 const PgSession = require("connect-pg-simple")(session);
 const passport = require("passport");
-const knex = require("./dbs/db");
 const { Pool } = require("pg");
 
-const filterRoutes = require("./routes/search_filter.route");
-const authRoutes = require("./routes/authRoutes");
-const indexRoutes = require("./routes/indexRoutes");
-const productRoutes = require("./routes/productRoutes");
-const detailRoutes = require("./routes/detailRoutes");
-
+import indexRouter from "./components/index/index.router";
+import authRouter from "./components/auth/auth.router";
+import productRouter from "./components/product/product.router";
+import searchRouter from "./components/search/search.router";
+import profileRouter from "./components/user/user.router";
 console.log("Server is starting...");
 
 // Middleware
@@ -53,11 +51,11 @@ app.set("view engine", "ejs");
 // init DB
 app.set("views", path.join(__dirname, "views"));
 
-app.use(authRoutes);
-app.use(indexRoutes);
-app.use(productRoutes);
-app.use(detailRoutes);
-app.use(filterRoutes);
+app.use("/auth", authRouter);
+app.use("/movies", productRouter);
+app.use("/search", searchRouter);
+app.use("/profile", profileRouter);
+app.use("/", indexRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 
