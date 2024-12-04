@@ -1,5 +1,5 @@
-import ProductModel from "../product/product.model";
-import PromotionModel from "../product/promotion.model";
+import ProductModel from "../product/product.model.js";
+import PromotionModel from "../product/promotion.model.js";
 
 const getIndexPage = async (req, res) => {
   const [products, promotions] = await Promise.all([

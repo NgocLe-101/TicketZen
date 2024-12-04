@@ -1,4 +1,4 @@
-import ProductModel from "./product.model";
+import ProductModel from "./product.model.js";
 
 const getProductPage = async (req, res) => {
   const limit = 8;

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import { ensureAuthenticated } from "../../shared/middlewares/auth.middleware";
-import cartController from "./cart.controller";
+import { ensureAuthenticated } from "../../shared/middlewares/auth.middleware.js";
+import cartController from "./cart.controller.js";
 
 router.get("/", ensureAuthenticated, cartController.getCartPage);
 router.post("/add/:id", ensureAuthenticated, cartController.addToCart);

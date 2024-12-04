@@ -1,5 +1,5 @@
-import CartModel from "../cart/cart.model";
-import OrderModel from "../order/order.model";
+import CartModel from "../cart/cart.model.js";
+import OrderModel from "../order/order.model.js";
 
 const getCartPage = async (req, res) => {
   try {

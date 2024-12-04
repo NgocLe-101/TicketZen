@@ -1,6 +1,6 @@
-import db from "../../dbs/db";
+import db from "../../dbs/db.js";
 import bcrypt from "bcrypt";
-const { performance } = require("perf_hooks");
+import { performance } from 'perf_hooks';
 
 const UserModel = {
   createUser: async ({ username, email, password }) => {

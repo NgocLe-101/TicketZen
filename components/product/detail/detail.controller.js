@@ -1,4 +1,4 @@
-import ProductModel from "../product.model";
+import ProductModel from "../product.model.js";
 
 const getDetailPage = async (req, res) => {
   const id = req.params.id;

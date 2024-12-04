@@ -1,6 +1,6 @@
 import passport from "passport";
-import transporter from "../../configs/nodemailer";
-import User from "../user/user.model";
+import transporter from "../../configs/nodemailer.js";
+import User from "../user/user.model.js";
 
 // Controller for Login
 const getLoginPage = (req, res) => {

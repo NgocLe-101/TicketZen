@@ -1,4 +1,4 @@
-import db from "../../dbs/db";
+import db from "../../dbs/db.js";
 
 const createFromCart = async (userId) => {
   // Start transaction

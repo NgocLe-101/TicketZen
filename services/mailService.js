@@ -1,4 +1,4 @@
-const transporter = require("../configs/nodemailer");
+import transporter from '../configs/nodemailer.js';
 
 const MAIL_OPTIONS = {
   from: {
@@ -28,6 +28,4 @@ const sendVerificationEmail = async (email, token) => {
   });
 };
 
-module.exports = {
-  sendVerificationEmail,
-};
+export default {sendVerificationEmail}

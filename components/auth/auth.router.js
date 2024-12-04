@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 
 const router = express.Router();
-import authController from "./auth.controller";
+import authController from "./auth.controller.js";
 
 router.get("/", (req, res) => {
   res.redirect("/login");
