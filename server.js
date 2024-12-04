@@ -26,7 +26,7 @@ import productRouter from "./components/product/product.router.js";
 import searchRouter from "./components/search/search.router.js";
 import profileRouter from "./components/user/user.router.js";
 import cartRouter from "./components/cart/cart.router.js";
-
+import orderRoute from './components/order/order.route.js'
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -70,6 +70,7 @@ app.use("/search", searchRouter);
 app.use("/profile", profileRouter);
 app.use("/cart", cartRouter);
 app.use("/", indexRouter);
+app.use("/orders", orderRoute);
 
 app.use(express.static(path.join(__dirname, "public")));
 
