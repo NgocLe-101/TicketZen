@@ -1,5 +1,4 @@
-import knex from "../knexfile.js";
-import orderModel from './order.model';
+import orderModel from './order.model.js';
 export const createOrder = async (req, res) => {
   try {
     const userId = req.user.id;
