@@ -1,0 +1,29 @@
+<%- include('head', { active: 'orders' }) -%> 
+
+<div class="container py-5">
+  <h1>All Orders</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach(order => { %>
+        <tr>
+          <td><%= order.id %></td>
+          <td><%= order.customer_name %></td>
+          <td><%= order.status %></td>
+          <td><%= order.created_at.toLocaleDateString() %></td>
+          <td><a href="/orders/<%= order.id %>" class="btn btn-primary">View</a></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('foot') -%>

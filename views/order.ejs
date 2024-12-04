@@ -1,0 +1,30 @@
+<%- include('head', { active: 'orders' }) -%> 
+
+<div class="container py-5">
+  <h1>Order ID: <%= order.id %></h1>
+  <h3>Customer: <%= order.customer_name %></h3>
+  <h5>Status: <%= order.status %></h5>
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% details.forEach(item => { %>
+        <tr>
+          <td><img src="<%= item.image_url %>" alt="<%= item.title %>" width="100" /></td>
+          <td><%= item.title %></td>
+          <td><%= item.quantity %></td>
+          <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <h3>Total: $<%= details.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2) %></h3>
+</div>
+
+<%- include('foot') -%>

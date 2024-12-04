@@ -13,6 +13,7 @@ const authRoutes = require("./routes/authRoutes");
 const indexRoutes = require("./routes/indexRoutes");
 const productRoutes = require("./routes/productRoutes");
 const detailRoutes = require("./routes/detailRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 console.log("Server is starting...");
 
@@ -58,6 +59,7 @@ app.use(indexRoutes);
 app.use(productRoutes);
 app.use(detailRoutes);
 app.use(filterRoutes);
+app.use("/orders", orderRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
