@@ -1,27 +1,22 @@
 import knex from "../knexfile.js";
-
-// Tạo đơn hàng từ giỏ hàng
+import orderModel from './order.model';
 export const createOrder = async (req, res) => {
   try {
-    const userId = req.user.id; // ID người dùng hiện tại
-    const cartItems = await knex("cart_items").where("user_id", userId);
+    const userId = req.user.id;
+
+    const cartItems = await orderModel.findCartItemsByUserId(userId);
 
     if (cartItems.length === 0) {
       return res.status(400).send("Giỏ hàng trống.");
     }
 
-    const totalAmount = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+    const totalAmount = cartItems.reduce(
+        (total, item) => total + item.quantity * item.price,
+        0
+    );
 
-    // Tạo đơn hàng
-    const [orderId] = await knex("orders").insert({
-      user_id: userId,
-      total_amount: totalAmount,
-      status: "pending",
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
+    const orderId = await orderModel.createOrder(userId, totalAmount);
 
-    // Chuyển các mục trong giỏ hàng thành các mục trong đơn hàng
     const orderItems = cartItems.map((item) => ({
       order_id: orderId,
       movie_id: item.movie_id,
@@ -29,11 +24,13 @@ export const createOrder = async (req, res) => {
       price: item.price,
     }));
 
-    await knex("order_items").insert(orderItems);
+    // Thêm mục đơn hàng vào DB
+    await orderModel.createOrderItems(orderItems);
 
-    // Xóa giỏ hàng
-    await knex("cart_items").where("user_id", userId).del();
+    // Xóa giỏ hàng của user
+    await orderModel.clearCart(userId);
 
+    // Chuyển hướng đến chi tiết đơn hàng
     res.redirect(`/orders/${orderId}`);
   } catch (error) {
     console.error(error);
@@ -41,21 +38,22 @@ export const createOrder = async (req, res) => {
   }
 };
 
-// Lấy thông tin một đơn hàng
+
 export const getOrder = async (req, res) => {
   try {
     const orderId = req.params.id;
 
-    const order = await knex("orders").where("id", orderId).first();
+    // Lấy thông tin đơn hàng từ model
+    const order = await orderModel.findOrderById(orderId);
+
     if (!order) {
       return res.status(404).send("Đơn hàng không tồn tại.");
     }
 
-    const orderItems = await knex("order_items")
-      .join("products", "order_items.movie_id", "products.id")
-      .select("products.image_url", "products.title", "order_items.quantity", "order_items.price")
-      .where("order_items.order_id", orderId);
+    // Lấy danh sách mục trong đơn hàng từ model
+    const orderItems = await orderModel.findOrderItemsByOrderId(orderId);
 
+    // Render thông tin đơn hàng và các mục
     res.render("order", { order, orderItems });
   } catch (error) {
     console.error(error);
@@ -63,13 +61,16 @@ export const getOrder = async (req, res) => {
   }
 };
 
+
 // Hiển thị danh sách đơn hàng
 export const listOrders = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const orders = await knex("orders").where("user_id", userId);
+    // Lấy danh sách đơn hàng từ model
+    const orders = await orderModel.findOrdersByUserId(userId);
 
+    // Render danh sách đơn hàng
     res.render("orders", { orders });
   } catch (error) {
     console.error(error);
