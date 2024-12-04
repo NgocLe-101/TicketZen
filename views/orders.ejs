@@ -1,29 +1,18 @@
-<%- include('head', { active: 'orders' }) -%> 
+<%- include('head', { title: 'My Orders' }) -%>
 
 <div class="container py-5">
-  <h1>All Orders</h1>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Customer</th>
-        <th>Status</th>
-        <th>Date</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% orders.forEach(order => { %>
-        <tr>
-          <td><%= order.id %></td>
-          <td><%= order.customer_name %></td>
-          <td><%= order.status %></td>
-          <td><%= order.created_at.toLocaleDateString() %></td>
-          <td><a href="/orders/<%= order.id %>" class="btn btn-primary">View</a></td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
+  <h2>My Orders</h2>
+
+  <% orders.forEach(order => { %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5>Order #<%= order.id %></h5>
+        <p>Status: <%= order.status %></p>
+        <p>Total Amount: $<%= order.total_amount %></p>
+        <a href="/orders/<%= order.id %>" class="btn btn-primary">View Details</a>
+      </div>
+    </div>
+  <% }) %>
 </div>
 
 <%- include('foot') -%>

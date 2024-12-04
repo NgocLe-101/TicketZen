@@ -31,7 +31,11 @@ title: 'Movies' }) -%>
               value="1"
               style="max-width: 3rem"
             />
-            <button class="btn btn-outline-light flex-shrink-0" type="button">
+            <button
+              class="btn btn-outline-light flex-shrink-0 add-cart-item"
+              type="button"
+              data-id="<%= movie.id %>"
+            >
               <i class="bi-cart-fill me-1"></i>
               Add to cart
             </button>
@@ -67,7 +71,7 @@ title: 'Movies' }) -%>
             />
             <!-- Product details-->
             <div class="card-body p-4">
-              <a href="/detail/<%= movie.id %>">
+              <a href="/movies/<%= movie.id %>">
                 <div class="text-center">
                   <!-- Product name-->
                   <h5 class="fw-bolder text-dark"><%= movie.title %></h5>
@@ -93,7 +97,7 @@ title: 'Movies' }) -%>
               <div class="text-center">
                 <a
                   class="btn btn-outline-dark mt-auto"
-                  href="/detail/<%= movie.id %>"
+                  href="/movies/<%= movie.id %>"
                 >
                   <%= movie.inCart ? 'View options' : 'Add to cart' %>
                 </a>

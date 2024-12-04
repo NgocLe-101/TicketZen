@@ -1,13 +1,7 @@
-const db = require("../dbs/db");
+import db from "../../dbs/db.js";
 
-class ProductModel {
-  static createProduct = async ({
-    id,
-    title,
-    description,
-    price,
-    image_url,
-  }) => {
+const ProductModel = {
+  createProduct: async ({ id, title, description, price, image_url }) => {
     try {
       const [productId] = await db("products").insert({
         id,
@@ -20,25 +14,22 @@ class ProductModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  };
-
-  static findOne = async (condition) => {
+  },
+  findOne: async (condition) => {
     try {
       return await db("products").where(condition).first();
     } catch (error) {
       throw new Error(error.message);
     }
-  };
-
-  static getProductById = async (id) => {
+  },
+  getProductById: async (id) => {
     try {
       return await db("products").where({ id }).first();
     } catch (error) {
       throw new Error(error.message);
     }
-  };
-
-  static getAllProducts = async (limit = null) => {
+  },
+  getAllProducts: async (limit = null) => {
     try {
       if (limit) {
         return await db("products").select("*").limit(limit);
@@ -47,56 +38,8 @@ class ProductModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  };
-  // static searchProducts = async (filters = {}) => {
-  //     try {
-  //         let query = db('products')
-  //             .select("products.*", "genres.name as genre_name", "age_rating.name as age_rating_name", "languages.name as language_name")
-  //             .join('genres', 'products.genre', '=', 'genres.id')
-  //             .join('age_ratings', 'products.age_rating', '=', 'age_rating.id')
-  //             .join('languages', 'products.languages', '=', 'languages.id')
-  //
-  //         console.log(query.toString())
-  //         // Áp dụng bộ lọc theo các điều kiện (nếu có)
-  //         if (filters.search) {
-  //             query = query.where('products.title', 'like', `%${filters.search}%`);
-  //         }
-  //         if (filters.title) {
-  //             query = query.where('products.title', 'like', `%${filters.title}%`);
-  //         }
-  //         if (filters.description) {
-  //             query = query.where('products.description', 'like', `%${filters.description}%`);
-  //         }
-  //         if (filters.price) {
-  //             query = query.where('products.price', '>=', filters.price);
-  //         }
-  //         if (filters.image_url) {
-  //             query = query.where('products.image_url', 'like', `%${filters.image_url}%`);
-  //         }
-  //         if (filters.genre) {
-  //             query = query.where('genres.name', 'like', `%${filters.genre}%`);
-  //         }
-  //         if (filters.age) {
-  //             query = query.where('age_rating.name', 'like', `%${filters.age}%`);
-  //         }
-  //         if (filters.language) {
-  //             query = query.where('languages.name', 'like', `%${filters.language}%`);
-  //         }
-  //
-  //         // Áp dụng bộ lọc limit nếu có
-  //         if (filters.limit) {
-  //             query = query.limit(filters.limit);
-  //         }
-  //
-  //         // Thực hiện truy vấn và trả về kết quả
-  //         const results = await query;
-  //         return results;
-  //     } catch (error) {
-  //         console.error('Error while searching products:', error);  // Thêm thông báo lỗi chi tiết
-  //         throw new Error(error.message);  // Trả về lỗi với thông báo chi tiết
-  //     }
-  // };
-  static searchProducts = async (filters = {}) => {
+  },
+  searchProducts: async (filters = {}) => {
     try {
       let query = db("products")
         .select(
@@ -167,7 +110,7 @@ class ProductModel {
       console.error("Error while searching products:", error); // Thêm thông báo lỗi chi tiết
       throw new Error(error.message); // Trả về lỗi với thông báo chi tiết
     }
-  };
-}
+  },
+};
 
-module.exports = ProductModel;
+export default ProductModel;

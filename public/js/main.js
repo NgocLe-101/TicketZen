@@ -1,3 +1,4 @@
+import cart from "./cart.js";
 (function ($) {
   "use strict";
 
@@ -69,4 +70,43 @@
       },
     },
   });
+
+  $(".add-cart-item").on("click", function (e) {
+    let id = $(this).data("id");
+    if (!id) return;
+    cart.addCartItem(id);
+  });
+  
+  $(".increase-qty, .decrease-qty").click(function () {
+    const input = $(this).closest(".input-group").find(".qty-input");
+    const newQty = $(this).hasClass("increase-qty")
+      ? parseInt(input.val()) + 1
+      : Math.max(1, parseInt(input.val()) - 1);
+    input.val(newQty);
+    cart.updateCartItem($(this).closest(".cart-item").data("id"), newQty);
+  });
+
+  // Remove item
+  $(".remove-item").click(function () {
+    const itemId = $(this).closest(".cart-item").data("id");
+    cart.removeCartItem(itemId);
+  });
+
+  // Checkout
+  $("#checkout-btn").click(function () {
+    $.post("/cart/checkout")
+      .done(function (response) {
+        if (response.success) {
+          Toast.success("Order placed successfully!");
+          setTimeout(
+            () => (window.location.href = "/orders/" + response.orderId),
+            1500
+          );
+        }
+      })
+      .fail(function (err) {
+        Toast.error("Failed to place order");
+      });
+  });
+
 })(jQuery);

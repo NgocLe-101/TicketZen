@@ -1,30 +1,23 @@
-<%- include('head', { active: 'orders' }) -%> 
+<%- include('head', { title: `Order ${order.id}` }) -%>
 
 <div class="container py-5">
-  <h1>Order ID: <%= order.id %></h1>
-  <h3>Customer: <%= order.customer_name %></h3>
-  <h5>Status: <%= order.status %></h5>
-  <table class="table mt-4">
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% details.forEach(item => { %>
-        <tr>
-          <td><img src="<%= item.image_url %>" alt="<%= item.title %>" width="100" /></td>
-          <td><%= item.title %></td>
-          <td><%= item.quantity %></td>
-          <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
-  <h3>Total: $<%= details.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2) %></h3>
+  <h2>Order #<%= order.id %></h2>
+  <p>Status: <%= order.status %></p>
+  <p>Total Amount: $<%= order.total_amount %></p>
+  <hr>
+
+  <% orderItems.forEach(item => { %>
+    <div class="row mb-3">
+      <div class="col-md-2">
+        <img src="<%= item.image_url %>" alt="<%= item.title %>" class="img-fluid">
+      </div>
+      <div class="col-md-8">
+        <h5><%= item.title %></h5>
+        <p>Quantity: <%= item.quantity %></p>
+        <p>Price: $<%= (item.quantity * item.price).toFixed(2) %></p>
+      </div>
+    </div>
+  <% }) %>
 </div>
 
 <%- include('foot') -%>
