@@ -9,25 +9,25 @@ const getIndexPage = async (req, res) => {
   const tabs = [
     {
       name: "Hot New Release",
-      movies: products
+      movies: products.products
         .slice(0, 4)
         .map((product) => ({ ...product, tag: "NEW" })),
     },
     {
       name: "Best Seller",
-      movies: products
+      movies: products.products
         .slice(4, 8)
         .map((product) => ({ ...product, tag: "HOT" })),
     },
     {
       name: "Top Rated",
-      movies: products
+      movies: products.products
         .sort((a, b) => b.rating - a.rating)
         .slice(0, 4)
         .map((product) => ({ ...product, tag: "TOP" })),
     },
   ];
-  const slideShow = products.slice(0, 4);
+  const slideShow = products.products.slice(0, 4);
   res.render("index", { tabs, slideShow, promotions }); // Render index page
 };
 
