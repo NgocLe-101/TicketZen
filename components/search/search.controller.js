@@ -27,7 +27,7 @@ const getMovies = async (req, res) => {
 const renderMovies = async (req, res) => {
   try {
     let movies = await ProductModel.getAllProducts();
-    res.render("filter", { movies, filters: {} });
+    res.render("filter", { movies: movies.products, filters: {} });
   } catch (error) {
     res.status(500).json({ message: "Lỗi khi lấy dữ liệu", error });
   }
