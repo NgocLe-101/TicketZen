@@ -31,7 +31,12 @@ app.use(express.json());
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: false,
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? {
+          rejectUnauthorized: false,
+        }
+      : false, // Only use SSL in production, in development, disable SSL for potential connection issues
 });
 
 // Session middleware
@@ -76,8 +81,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res) => {
   res.render("404");
 });
-
+/*
+It is recommended to keep export default app; and running "vercel dev" in the terminal to test the application locally.
+If you want to use node or nodemon, comment out this line and uncomment the app.listen() method below.
+But remember to keep the export default app; line uncommented before pushing the code to the remote repository.
+*/
 export default app;
+
+/* 
+Using the app.listen() method only when developing the application locally (with node or nodemon).
+*/
 // app.listen(3000, () => {
 //   console.log("Server is running on port 3000");
 // });
