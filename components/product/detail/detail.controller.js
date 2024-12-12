@@ -6,17 +6,17 @@ const getDetailPage = async (req, res) => {
     ProductModel.getProductById(id),
     ProductModel.getAllProducts(),
   ]);
-  const sameCategoryProducts = relatedProducts.filter(
+  const sameCategoryProducts = relatedProducts.products.filter(
     (otherProduct) => otherProduct.genre === product.genre
   );
   if (sameCategoryProducts.length < 4) {
     sameCategoryProducts.push(
-      ...relatedProducts.sort((a, b) => b.rating - a.rating)
+      ...relatedProducts.products.sort((a, b) => b.rating - a.rating)
     );
   }
   res.render("detail", {
     movie: product,
-    relatedMovies: relatedProducts
+    relatedMovies: relatedProducts.products
       .filter((product) => product.id != id)
       .slice(0, 4)
       .map((product) => ({

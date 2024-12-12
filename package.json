@@ -6,6 +6,7 @@
   "directories": {
     "lib": "lib"
   },
+  "type": "module",
   "scripts": {
     "start": "nodemon --inspect --env-file=.env server.js"
   },

@@ -29,12 +29,15 @@ const ProductModel = {
       throw new Error(error.message);
     }
   },
-  getAllProducts: async (limit = null) => {
+  getAllProducts: async (skip = 0, limit = null) => {
     try {
+      const totalQuery = db("products").count({ total: "*" }).first();
+      let query = db("products").select("*");
       if (limit) {
-        return await db("products").select("*").limit(limit);
+        query = query.limit(limit).offset(skip);
       }
-      return await db("products").select("*");
+      const [totalResult, products] = await Promise.all([totalQuery, query]);
+      return { total: totalResult.total, products };
     } catch (error) {
       throw new Error(error.message);
     }
@@ -109,6 +112,30 @@ const ProductModel = {
     } catch (error) {
       console.error("Error while searching products:", error); // Thêm thông báo lỗi chi tiết
       throw new Error(error.message); // Trả về lỗi với thông báo chi tiết
+    }
+  },
+  getProductsByGenre: async (genre, skip = 0, limit = null) => {
+    try {
+      const totalQuery = db("products as p")
+        .join("genres as g", "p.genre", "=", "g.id")
+        .where("g.name", "ilike", `%${genre}%`)
+        .count({ total: "*" })
+        .first();
+
+      let query = db("products as p")
+        .join("genres as g", "p.genre", "=", "g.id")
+        .select("p.*", "g.name as genre_name")
+        .where("g.name", "ilike", `%${genre}%`)
+        .orderBy("p.rating", "DESC");
+
+      if (limit) {
+        query = query.limit(limit).offset(skip);
+      }
+
+      const [totalResult, products] = await Promise.all([totalQuery, query]);
+      return { total: totalResult.total, products };
+    } catch (error) {
+      throw new Error(error.message);
     }
   },
 };
