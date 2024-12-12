@@ -1,5 +1,3 @@
-
-
 import express from "express";
 const router = express.Router();
 import ProductModel from "../product/product.model.js";
@@ -26,21 +24,26 @@ router.get("/", async (req, res) => {
 
 // Route for handling AJAX requests (filters and search)
 router.get("/results", async (req, res) => {
-    const { genre, language, age, rate, price, search } = req.query;
-    let filters = {
-        genre: genre || "all",
-        language: language || "all",
-        age: age || "all",
-        rate: rate || "all",
-        price: price || "",
-        search: search || "",
-    };
+    try {
+        const { genre, language, age, rate, price, search } = req.query;
+        let filters = {
+            genre: genre || "all",
+            language: language || "all",
+            age: age || "all",
+            rate: rate || "all",
+            price: price || "",
+            search: search || "",
+        };
 
-    // Fetch filtered movies based on the parameters
-    let movies = await ProductModel.searchProducts(filters);
+        // Fetch filtered movies based on the parameters
+        let movies = await ProductModel.searchProducts(filters);
 
-    // Return filtered movies as JSON for the AJAX request
-    res.json({ movies, filters });
+        // Return filtered movies as JSON for the AJAX request
+        res.json({ movies, filters });
+    } catch (error) {
+        console.error("Error fetching movies:", error);
+        res.status(500).json({ message: "Error fetching movies" });
+    }
 });
 
 export default router;

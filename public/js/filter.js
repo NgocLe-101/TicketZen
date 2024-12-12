@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch movies based on filters or search
     function fetchMovies(queryString) {
         console.log("Fetching movies with query:", queryString); // Debugging
+        moviesContainer.innerHTML = `<div class="col-12 text-center"><p>Loading...</p></div>`;
 
         // Update the URL in the browser (optional, for SEO)
         const newUrl = `/search/results${queryString}`;
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error("Fetch error:", error);
+                moviesContainer.innerHTML = `<div class="col-12 text-center"><p>Error fetching data</p></div>`;
             });
     }
 
