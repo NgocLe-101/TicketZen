@@ -13,13 +13,10 @@ const postLogin = async (req, res, next) => {
     if (!user) {
       return res.render("login", { errorMessage: info.message });
     }
-    req.logIn(
-      { id: user.id, username: user.username, email: user.email },
-      (err) => {
-        if (err) return next(err);
-        return res.redirect("/?login=success");
-      }
-    );
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect("/?login=success");
+    });
   })(req, res, next);
 };
 
@@ -35,6 +32,7 @@ const postRegister = async (req, res, next) => {
       return res.render("register", { errorMessage: info.message });
     }
     const clientUrl = `${req.protocol}://${req.get("host")}`;
+    console.log(clientUrl);
     await transporter.sendMail({
       from: {
         name: "TicketZen",
@@ -192,10 +190,14 @@ const resendEmail = async (req, res) => {
 };
 
 // Controller for logout
-const logout = (req, res) => {
+const logout = async (req, res) => {
   req.logout((err) => {
     if (err) return next(err);
-    res.redirect("/login");
+
+    req.session.destroy((err) => {
+      if (err) return next(err);
+    });
+    res.redirect("/auth/login");
   });
 };
 
