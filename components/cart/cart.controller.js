@@ -3,7 +3,8 @@ import OrderModel from "../order/order.model.js";
 import ProductModel from "../product/product.model.js";
 
 const getCartPage = async (req, res) => {
-  const { cartId } = req.cart.id;
+  console.log(req.session.cart);
+  const cartId = req.session.cart.id;
   try {
     const cartItems = await CartModel.getCartItems(cartId);
     res.render("cart", { cartItems });
@@ -14,26 +15,26 @@ const getCartPage = async (req, res) => {
 
 const addToCart = async (req, res) => {
   try {
-    const { cartId } = req.cart.id;
-    const { movieId } = req.params;
+    const cartId = req.session.cart.id;
+    const { id } = req.params;
     const { quantity = 1 } = req.body;
-    const movie = await ProductModel.getProductById(movieId);
+    const movie = await ProductModel.getProductById(id);
     if (!movie) {
       return res.status(404).json({ message: "Movie not found" });
     }
-
     const price = movie.price;
 
-    await CartModel.addCartItem(cartId, movieId, quantity, price);
+    const item = await CartModel.addCartItem(cartId, id, quantity, price);
     res.json({ success: true, message: "Item added to cart" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
 
 const updateCartItem = async (req, res) => {
   try {
-    const { cartId } = req.cart.id;
+    const cartId = req.session.cart.id;
     const { id } = req.params;
     const { quantity } = req.body;
     const movie = await ProductModel.getProductById(id);
@@ -50,7 +51,7 @@ const updateCartItem = async (req, res) => {
 
 const removeFromCart = async (req, res) => {
   try {
-    const { cartId } = req.cart.id;
+    const cartId = req.session.cart.id;
     const { id } = req.params;
 
     const updatedCart = await CartModel.removeItem(cartId, id);

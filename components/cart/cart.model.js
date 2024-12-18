@@ -5,11 +5,15 @@ const getCartByUserId = async (userId) => {
 };
 
 const getCartItems = async (cartId) => {
-  const cart = await knex("carts").where("id", cartId).first();
-
-  cart.items = await knex("cart_items").where({ cart_id: cartId });
-
-  return cart;
+  return await db("cart_items")
+    .where({ cart_id: cartId })
+    .join("products", "cart_items.movie_id", "products.id")
+    .select(
+      "cart_items.*",
+      "products.title",
+      "products.image_url",
+      "products.price"
+    );
 };
 
 const addCartItem = async (cartID, productId, quantity, price) => {
@@ -19,7 +23,7 @@ const addCartItem = async (cartID, productId, quantity, price) => {
 
   if (existingItem) {
     return await db("cart_items")
-      .where({ user_id: userId, movie_id: productId })
+      .where({ cart_id: cartID, movie_id: productId })
       .update({
         quantity: db.raw("quantity + ?", [quantity]),
         updated_at: db.fn.now(),
@@ -64,7 +68,14 @@ const getCartBySessionId = async (sessionId) => {
 };
 
 const createCart = async (userId, sessionId) => {
-  return await db("carts").insert({ user_id: userId, session_id: sessionId });
+  const cart = await db("carts")
+    .insert({
+      user_id: userId,
+      session_id: sessionId,
+    })
+    .returning("*");
+
+  return cart[0];
 };
 
 const mergeCartOnLogin = async (userId, sessionId) => {

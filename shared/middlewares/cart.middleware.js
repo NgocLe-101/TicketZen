@@ -1,4 +1,4 @@
-import cartModel from "../../components/cart/cart.model";
+import cartModel from "../../components/cart/cart.model.js";
 
 const getOrCreateCart = async (req, res, next) => {
   let cart;
@@ -14,13 +14,12 @@ const getOrCreateCart = async (req, res, next) => {
   if (!cart) {
     cart = await cartModel.createCart(req.user?.id, req.sessionID);
   }
-
-  req.cart = cart;
+  req.session.cart = cart;
   next();
 };
 
 const ensureHasCart = (req, res, next) => {
-  if (!req.cart) {
+  if (!req.session.cart) {
     return res.status(404).json({ message: "Cart not found" });
   }
   next();

@@ -72,6 +72,17 @@ import passportConfig from "./configs/passport.js";
 import { getOrCreateCart } from "./shared/middlewares/cart.middleware.js";
 passportConfig(passport); // Use the imported passport configuration
 
+app.use((req, res, next) => {
+  console.log(`Request for: ${req.path}`);
+  next();
+});
+
+// app.use((req, res, next) => {
+//   console.log("Cookies:", req.cookies);
+//   console.log("SessionID:", req.sessionID);
+//   next();
+// });
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 

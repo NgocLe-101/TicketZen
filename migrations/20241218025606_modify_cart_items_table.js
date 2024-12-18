@@ -10,7 +10,7 @@ export function up(knex) {
       .references("id")
       .inTable("carts")
       .onDelete("CASCADE");
-    table.decimal("price", 14, 2).notNullable().alter();
+    table.decimal("price", 14, 2).notNullable().defaultTo(0);
   });
 }
 
@@ -26,6 +26,6 @@ export function down(knex) {
       .inTable("users")
       .onDelete("CASCADE");
     table.dropColumn("cart_id");
-    table.decimal("price", 14, 2).alter();
+    table.dropColumn("price");
   });
 }

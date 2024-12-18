@@ -14,6 +14,12 @@ const postLogin = async (req, res, next) => {
     if (!user) {
       return res.render("login", { errorMessage: info.message });
     }
+    // Merge cart if user has a cart in session
+    if (req.session.cart) {
+      console.log("Merging cart");
+      console.log(user.id, req.sessionID);
+      await cartModel.mergeCartOnLogin(user.id, req.sessionID);
+    }
     req.logIn(user, (err) => {
       if (err) return next(err);
       return res.redirect("/?login=success");
