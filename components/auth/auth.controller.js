@@ -34,6 +34,7 @@ const postRegister = async (req, res, next) => {
     if (!user) {
       return res.render("register", { errorMessage: info.message });
     }
+    const clientUrl = `${req.protocol}://${req.get("host")}`;
     await transporter.sendMail({
       from: {
         name: "TicketZen",
@@ -44,7 +45,7 @@ const postRegister = async (req, res, next) => {
       html: `
             <h1>Welcome to TicketZen</h1>
             <p>Click the link below to verify your email</p>
-            <a href="${process.env.CLIENT_URL}/auth/verify-email?token=${user.verification_token}">Verify your email</a>
+            <a href="${clientUrl}/auth/verify-email?token=${user.verification_token}">Verify your email</a>
             `,
     });
     res.render("verify_email", { email: user.email });
