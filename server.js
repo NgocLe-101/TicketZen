@@ -57,7 +57,7 @@ app.use(
     saveUninitialized: false, // Don't create session until something stored
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      secure: process.env.NODE_ENV === "production", // Ensure cookies are only used over HTTPS
+      secure: false, // Have to set this to false as a fix. The cookie still doesn't work in production
       httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
     },
   })
