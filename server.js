@@ -12,6 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename); // Ensure this is imported and used
 
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import connectPgSimple from "connect-pg-simple"; // Import connect-pg-simple correctly
 const PgSession = connectPgSimple(session); // Initialize it by passing `session`
 
@@ -28,15 +29,17 @@ import orderRoute from "./components/order/order.route.js";
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
+const sslConfig =
+  process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false;
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl:
-    process.env.NODE_ENV === "production"
-      ? {
-          rejectUnauthorized: false,
-        }
-      : false, // Only use SSL in production, in development, disable SSL for potential connection issues
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+  ssl: sslConfig, // Only use SSL in production, in development, disable SSL for potential connection issues
 });
 
 // Session middleware
@@ -45,13 +48,16 @@ app.use(
     store: new PgSession({
       pool: pool,
       tableName: "users_session",
+      errorLog: (err) => {
+        console.log(err);
+      },
     }),
     secret: process.env.SESSION_SECRET, // Secret used to sign the session ID cookie
     resave: false, // Don't save session if unmodified
     saveUninitialized: false, // Don't create session until something stored
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      secure: process.env.NODE_ENV === "production", // Ensure cookies are only used over HTTPS
+      secure: false, // Have to set this to false as a fix. The cookie still doesn't work in production
       httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
     },
   })

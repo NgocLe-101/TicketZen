@@ -14,16 +14,10 @@ const postLogin = async (req, res, next) => {
     if (!user) {
       return res.render("login", { errorMessage: info.message });
     }
-    await cartModel.mergeCartOnLogin(user.id, req.sessionID);
-    req.logIn(
-      { id: user.id, username: user.username, email: user.email },
-      (err) => {
-        if (err) return next(err);
-        // Merge current cart into user's cart
-
-        return res.redirect("/?login=success");
-      }
-    );
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect("/?login=success");
+    });
   })(req, res, next);
 };
 
@@ -38,6 +32,8 @@ const postRegister = async (req, res, next) => {
     if (!user) {
       return res.render("register", { errorMessage: info.message });
     }
+    const clientUrl = `${req.protocol}://${req.get("host")}`;
+    console.log(clientUrl);
     await transporter.sendMail({
       from: {
         name: "TicketZen",
@@ -48,7 +44,7 @@ const postRegister = async (req, res, next) => {
       html: `
             <h1>Welcome to TicketZen</h1>
             <p>Click the link below to verify your email</p>
-            <a href="${process.env.CLIENT_URL}/auth/verify-email?token=${user.verification_token}">Verify your email</a>
+            <a href="${clientUrl}/auth/verify-email?token=${user.verification_token}">Verify your email</a>
             `,
     });
     res.render("verify_email", { email: user.email });
@@ -195,13 +191,14 @@ const resendEmail = async (req, res) => {
 };
 
 // Controller for logout
-const logout = (req, res) => {
+const logout = async (req, res) => {
   req.logout((err) => {
     if (err) return next(err);
-    req.session.destroy((destroyErr) => {
-      if (destroyErr) return next(destroyErr);
+
+    req.session.destroy((err) => {
+      if (err) return next(err);
     });
-    res.redirect("/login");
+    res.redirect("/auth/login");
   });
 };
 
