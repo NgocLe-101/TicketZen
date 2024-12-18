@@ -63,6 +63,7 @@ app.use(passport.session());
 
 // Passport config
 import passportConfig from "./configs/passport.js";
+import { getOrCreateCart } from "./shared/middlewares/cart.middleware.js";
 passportConfig(passport); // Use the imported passport configuration
 
 app.set("view engine", "ejs");
@@ -72,7 +73,7 @@ app.use("/auth", authRouter);
 app.use("/movies", productRouter);
 app.use("/search", searchRouter);
 app.use("/profile", profileRouter);
-app.use("/cart", cartRouter);
+app.use("/cart", getOrCreateCart, cartRouter);
 app.use("/", indexRouter);
 app.use("/orders", orderRoute);
 
