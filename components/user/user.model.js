@@ -78,6 +78,15 @@ const UserModel = {
       throw new Error(error.message);
     }
   },
+  getUser: async (id) => {
+    try {
+      const result = await db.raw(`SELECT * FROM users WHERE id = ?`, [id]); // Use parameterized query
+      const user = result.rows[0]; // Assuming the result is an array with rows
+      return user; // This returns the resolved user object
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 
   verifyUser: async (token) => {
     try {
@@ -204,6 +213,38 @@ const UserModel = {
         email,
         verification_token,
       };
+    } catch (error) {
+      await trx.rollback();
+      throw new Error(error.message);
+    }
+  },
+
+  updateUser: async ({ userId, username, newPassword, avatar }) => {
+    const trx = await db.transaction();
+
+    try {
+      // Create an object to hold the fields that need to be updated
+      const updateData = {};
+
+      // Update username if provided
+      if (username) {
+        updateData.username = username;
+      }
+
+      // Update password if provided
+      if (newPassword) {
+        updateData.password = newPassword;
+      }
+
+      if(avatar){
+        updateData.avatar = avatar;
+      }
+      await trx("users").where({ id: userId }).update(updateData);
+
+      // Commit the transaction
+      await trx.commit();
+
+      return { message: "User details updated successfully" };
     } catch (error) {
       await trx.rollback();
       throw new Error(error.message);
