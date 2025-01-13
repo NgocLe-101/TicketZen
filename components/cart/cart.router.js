@@ -1,11 +1,11 @@
 import express from "express";
 const router = express.Router();
-import { ensureAuthenticated } from "../../shared/middlewares/auth.middleware.js";
 import cartController from "./cart.controller.js";
+import { ensureHasCart } from "../../shared/middlewares/cart.middleware.js";
 
-router.get("/", ensureAuthenticated, cartController.getCartPage);
-router.post("/add/:id", ensureAuthenticated, cartController.addToCart);
-router.post("/update/:id", ensureAuthenticated, cartController.updateCartItem);
-router.post("/remove/:id", ensureAuthenticated, cartController.removeFromCart);
+router.get("/", ensureHasCart, cartController.getCartPage);
+router.post("/add/:id", ensureHasCart, cartController.addToCart);
+router.post("/update/:id", ensureHasCart, cartController.updateCartItem);
+router.post("/remove/:id", ensureHasCart, cartController.removeFromCart);
 
 export default router;

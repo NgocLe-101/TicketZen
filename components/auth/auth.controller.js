@@ -1,6 +1,7 @@
 import passport from "passport";
 import transporter from "../../configs/nodemailer.js";
 import User from "../user/user.model.js";
+import cartModel from "../cart/cart.model.js";
 
 // Controller for Login
 const getLoginPage = (req, res) => {
@@ -8,10 +9,16 @@ const getLoginPage = (req, res) => {
 };
 
 const postLogin = async (req, res, next) => {
-  passport.authenticate("local-login", (err, user, info) => {
+  passport.authenticate("local-login", async (err, user, info) => {
     if (err) return next(err);
     if (!user) {
       return res.render("login", { errorMessage: info.message });
+    }
+    // Merge cart if user has a cart in session
+    if (req.session.cart) {
+      console.log("Merging cart");
+      console.log(user.id, req.sessionID);
+      await cartModel.mergeCartOnLogin(user.id, req.sessionID);
     }
     req.logIn(user, (err) => {
       if (err) return next(err);

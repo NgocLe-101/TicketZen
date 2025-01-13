@@ -5,4 +5,17 @@ const ensureAuthenticated = (req, res, next) => {
   res.redirect("/auth/login");
 };
 
-export { ensureAuthenticated };
+const createSessionIfNotExists = (req, res, next) => {
+  if (!req.session) {
+    req.session.regenerate((err) => {
+      if (err) {
+        return res.status(500).json({ message: "Session creation failed" });
+      }
+      next();
+    });
+  } else {
+    next();
+  }
+};
+
+export { ensureAuthenticated, createSessionIfNotExists };
