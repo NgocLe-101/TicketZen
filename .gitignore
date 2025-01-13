@@ -6,3 +6,5 @@ node_modules/
 **/ca.pem
 ca-certificate.crt
 .vercel
+
+.vercel
