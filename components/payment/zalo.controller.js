@@ -15,7 +15,7 @@ const config = {
     key2: "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf",
     endpoint: 'https://sb-openapi.zalopay.vn/v2/create',
 };
-const url = 'https://db77-113-161-238-218.ngrok-free.app'
+const url = 'ga-03-static-pages.vercel.app'
 class zaloController{
     async processingPayment(req, res){
         const orderDetails = req.body
