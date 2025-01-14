@@ -1,3 +1,4 @@
+
 <%- include('head', { active: 'showtimes' }) -%>
 <%- include('page_header', { title: 'Select Seats' }) -%>
 
@@ -31,10 +32,10 @@
         <%= seat.status === 'available' ? '' : 'disabled' %>"
                             data-seat-id="<%= seat.id %>"
                             data-price="<%= seat.calculatedPrice %>"
-                    data-seat-type="<%= seat.seat_type %>"
-                    <%= seat.status !== 'available' ? 'disabled' : '' %>
+                            data-seat-type="<%= seat.seat_type %>"
+                            <%= seat.status !== 'available' ? 'disabled' : '' %>
                     >
-                    <%= seat.label %>
+                        <%= seat.label %>
                     </button>
                 <% }); %>
             </div>
@@ -78,7 +79,11 @@
                 } else {
                     // Nếu chưa chọn, thêm vào danh sách và tăng giá
                     seat.classList.add('selected');
-                    selectedSeats.push(seatId);
+                    selectedSeats.push({
+                        seatId: seatId,
+                        price: seatPrice,
+                        seatType: seatType
+                    });
                     totalPrice += seatPrice;  // Cộng giá ghế đã chọn
                 }
 
@@ -86,8 +91,50 @@
                 document.getElementById('total-price').textContent = totalPrice.toFixed(2);
             });
         });
+
+        // Lắng nghe sự kiện khi người dùng nhấn nút "Proceed to Payment"
+        document.getElementById('pay-button').addEventListener('click', () => {
+            if (selectedSeats.length === 0) {
+                alert("Please select at least one seat.");
+                return;
+            }
+
+            // Gửi thông tin ghế và tổng giá tới backend để tạo đơn hàng
+            fetch('/orders/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    seats: selectedSeats,
+                    totalAmount: totalPrice
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = `/orders/${data.orderId}`;  // Chuyển hướng đến trang chi tiết đơn hàng
+                    } else {
+                        alert("An error occurred while creating the order.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred.");
+                });
+        });
     });
 </script>
+
+
+<%- include('foot') -%>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Logic to handle seat selection, toggle visibility, etc.
+    });
+</script>
+
 
 
 <%- include('foot') -%>
