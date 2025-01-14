@@ -512,3 +512,84 @@
   background: linear-gradient(135deg, #1e2024 0%, #17181c 100%);
 }
 
+/*
+*/
+/* Style for the screen */
+.screen-container {
+  margin-bottom: 30px;
+}
+.screen {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #333;
+}
+.screen-text {
+  padding: 10px 0;
+}
+
+/* Seat Layout Styles */
+.seats-layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.seat.btn-platinum {
+  background-color: #c0c0c0;
+}
+
+.seat.btn-gold {
+  background-color: #ffcc00;
+}
+
+.seat.btn-silver {
+  background-color: #b0b0b0;
+}
+
+.seat.btn-secondary {
+  background-color: #dcdcdc;
+}
+
+.seat:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Payment Section */
+.payment-section {
+  text-align: center;
+}
+
+.payment-section .total-amount {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+}
+
+#pay-button {
+  font-size: 1.25rem;
+}
+/* CSS cho ghế được chọn */
+.seat.selected {
+  border: 2px solid #ffcc00; /* Thêm viền màu vàng */
+  background-color: #f39c12; /* Đổi màu nền */
+  color: white; /* Đổi màu chữ */
+}

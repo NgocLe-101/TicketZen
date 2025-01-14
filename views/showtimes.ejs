@@ -11,7 +11,7 @@
 
         <div class="row g-4" id="showtimes-container">
             <%
-            const groupedShowtimes = {}; // Nhóm theo ngày
+            const groupedShowtimes = {}; // Nhóm showtime theo ngày
             showtimes.forEach((showtime) => {
                 const date = showtime.start_time.split(' ')[0]; // lấy ngày từ start_time
                 if (!groupedShowtimes[date]) groupedShowtimes[date] = [];
@@ -23,22 +23,32 @@
                 <div class="col-12">
                     <h3><%= date %></h3>
                     <div class="row g-4">
-                        <% groupedShowtimes[date].forEach((showtime) => { %>
+                        <% groupedShowtimes[date].forEach((showtime, index) => { %>
                             <div class="col-lg-6 col-md-12 wow fadeInUp">
                                 <div class="showtime-item border p-4 mb-3">
                                     <h4 class="mb-3"><%= showtime.movie_title %></h4>
-                                    <p><strong>Cinema:</strong> <%= showtime.cinema.name %></p>
                                     <p><strong>Screen:</strong> <%= showtime.screen.name %></p>
                                     <p><strong>Time:</strong> <%= showtime.start_time %> - <%= showtime.end_time %></p>
 
+                                    <!-- Toggle Seat Selection -->
+                                    <button
+                                            class="btn btn-info toggle-seats"
+                                            onclick="window.location.href='/showtimes/<%= showtime.movie_id %>/seats?start_time=<%= showtime.start_time %>&screen_id=<%= showtime.screen_id %>';">
+                                        View Seats
+                                    </button>
+
+
+
                                     <!-- Seat Selection -->
-                                    <div class="seats-container mb-3">
+                                    <div id="seats-container-<%= date %>-<%= index %>"
+                                         class="seats-container mb-3 mt-3"
+                                         style="display: none;">
                                         <h5>Select Seats</h5>
                                         <div class="seats-layout">
                                             <% showtime.seats.forEach((seat) => { %>
                                                 <button
                                                         class="seat btn btn-sm
-                                                            <%= seat.status === 'available' ? 'btn-success' :
+                                                        <%= seat.status === 'available' ? 'btn-success' :
                                                                 seat.status === 'reserved' ? 'btn-danger' :
                                                                         'btn-secondary' %>"
                                                         data-seat-id="<%= seat.id %>"
@@ -49,12 +59,6 @@
                                                 </button>
                                             <% }); %>
                                         </div>
-                                    </div>
-
-                                    <!-- Proceed to Checkout -->
-                                    <div class="d-flex justify-content-between">
-                                        <button class="btn btn-primary">Proceed to Checkout</button>
-                                        <span>Total: $<%= showtime.total_price %></span>
                                     </div>
                                 </div>
                             </div>
@@ -68,4 +72,17 @@
 <!-- Showtimes End -->
 
 <%- include('foot') -%>
-<script src="/js/showtime.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Toggle visibility of seat containers
+        document.querySelectorAll('.toggle-seats').forEach(button => {
+            button.addEventListener('click', () => {
+                const target = document.querySelector(button.dataset.target);
+                if (target) {
+                    const isVisible = target.style.display === 'block';
+                    target.style.display = isVisible ? 'none' : 'block';
+                }
+            });
+        });
+    });
+</script>

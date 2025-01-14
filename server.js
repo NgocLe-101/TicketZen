@@ -92,7 +92,7 @@ app.use("/auth", authRouter);
 app.use("/movies", productRouter);
 app.use("/search", searchRouter);
 app.use("/profile", profileRouter);
-// app.use("/cart", getOrCreateCart, cartRouter);
+app.use("/cart", getOrCreateCart, cartRouter);
 app.use("/", indexRouter);
 app.use("/orders", orderRoute);
 app.use(bookTicketRouter)

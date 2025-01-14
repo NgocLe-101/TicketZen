@@ -11,7 +11,7 @@ const getCartItems = async (cartId) => {
     .select(
       "cart_items.*",
       "products.title",
-      "products.image_url",
+      // "products.image_url",
       "products.price"
     );
 };

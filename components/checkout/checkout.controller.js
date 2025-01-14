@@ -3,19 +3,19 @@ import orderModel from "./order.model.js";
 import userModel from "../user/user.model.js";
 class checkoutController {
   async getCheckout(req, res) {
-    // const order_id = req.body
-    // const order = orderModel.getOrder(order_id);
-    // const user = await userModel.getUser(order.user_id);
-    //
+    const order_id = req.body
+    const order = orderModel.getOrder(order_id);
+    const user = await userModel.getUser(order.user_id);
 
-    const order = {
-      order_id: Math.floor(Math.random() * 1000),
-      total_amount: 500000,
-      status: "pending",
-    };
-    const user = {
-      email: "jake@gmail.com",
-    };
+
+    // const order = {
+    //   order_id: Math.floor(Math.random() * 1000),
+    //   total_amount: 500000,
+    //   status: "pending",
+    // };
+    // const user = {
+    //   email: "jake@gmail.com",
+    // };
     const info = {
       order_id: order.order_id,
       email: user.email,
@@ -51,8 +51,8 @@ class checkoutController {
       const userId = req.user.id;
 
       const totalAmount = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
-      const order = await OrderModel.createOrder(userId, totalAmount);
-      await OrderModel.createTickets(order.id, tickets);
+      const order = await orderModel.createOrder(userId, totalAmount);
+      await orderModel.createTickets(order.id, tickets);
 
       res.json({ success: true, orderId: order.id });
     } catch (error) {
@@ -65,7 +65,7 @@ class checkoutController {
     try {
       const { orderId } = req.body;
 
-      const success = await OrderModel.updateStatus(orderId, 'paid');
+      const success = await orderModel.updateStatus(orderId, 'paid');
 
       if (success) {
         res.json({ success: true, message: 'Payment successful' });
