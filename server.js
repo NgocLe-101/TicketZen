@@ -82,7 +82,8 @@ app.use((req, res, next) => {
 //   console.log("SessionID:", req.sessionID);
 //   next();
 // });
-
+import bookTicketRouter from "./components/bookTicket/bookTicket.route.js";
+import zaloRouter from "./components/payment/zalo.route.js";
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -90,10 +91,11 @@ app.use("/auth", authRouter);
 app.use("/movies", productRouter);
 app.use("/search", searchRouter);
 app.use("/profile", profileRouter);
-app.use("/cart", getOrCreateCart, cartRouter);
+// app.use("/cart", getOrCreateCart, cartRouter);
 app.use("/", indexRouter);
 app.use("/orders", orderRoute);
-
+app.use(bookTicketRouter)
+app.use(zaloRouter)
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res) => {
