@@ -84,6 +84,7 @@ app.use((req, res, next) => {
 // });
 import bookTicketRouter from "./components/bookTicket/bookTicket.route.js";
 import zaloRouter from "./components/payment/zalo.route.js";
+import checkoutRoute from "./components/checkout/checkout.route.js";
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -95,6 +96,7 @@ app.use("/profile", profileRouter);
 app.use("/", indexRouter);
 app.use("/orders", orderRoute);
 app.use(bookTicketRouter)
+app.use(checkoutRoute)
 app.use(zaloRouter)
 app.use(express.static(path.join(__dirname, "public")));
 
