@@ -26,11 +26,11 @@ class checkoutController{
     async getThankyou(req, res) {
         const { order_id, email, totalAmount } = req.query;
 
-        if (!order_id || !email || !totalAmount) {
-            return res.status(400).send('Missing required parameters');
+        if(orderModel.updateStatus(order_id, 'paid')){
+            const order = orderModel.getOrder(order_id);
+            return res.render('thankyou', { order_id, email, amount: totalAmount, status: order.status });
         }
-
-        return res.render('thankyou', { order_id, email, amount: totalAmount });
+        else res.render('thankyou', { order_id, email, amount: totalAmount, status: 'Unpaid' });
     }
 
 }

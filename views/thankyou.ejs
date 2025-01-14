@@ -15,6 +15,84 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <style>
+        /* Dark Mode Styles */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        .thank-you-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #121212;
+        }
+
+        .thank-you-box {
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            color: #e0e0e0;
+        }
+
+        .logo-section h1 {
+            font-size: 36px;
+            color: #4e73df;
+        }
+
+        .logo-section .text-divider {
+            color: #fbbd08;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #bbbbbb;
+        }
+
+        .order-info h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .order-info p {
+            font-size: 14px;
+            color: #bbb;
+            margin: 5px 0;
+        }
+
+        .thank-you-actions p {
+            font-size: 16px;
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-actions .btn {
+            background-color: #4e73df;
+            color: #ffffff;
+            width: 100%;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .thank-you-actions .btn:hover {
+            background-color: #2e59d9;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid thank-you-page">
@@ -29,7 +107,7 @@
                 <p>Order ID: <%= order_id %></p>
                 <p>Email: <%= email %></p>
                 <p>Total amount: <%= amount %></p>
-                <p>Status: success</p>
+                <p>Status: status</p>
             </div>
         </div>
 

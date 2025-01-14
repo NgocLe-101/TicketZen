@@ -9,6 +9,17 @@ class orderModel {
             throw error;
         }
     }
+    async updateStatus(id, status){
+        try{
+            const result = await db.raw(
+                `UPDATE orders SET status = ? WHERE id = ?`,
+                [status, id]
+            );
+            return result.rowCount > 0;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default new orderModel();
