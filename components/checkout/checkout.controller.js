@@ -25,12 +25,14 @@ class checkoutController{
     }
     async getThankyou(req, res) {
         const { order_id, email, totalAmount } = req.query;
-
-        if(orderModel.updateStatus(order_id, 'paid')){
-            const order = orderModel.getOrder(order_id);
-            return res.render('thankyou', { order_id, email, amount: totalAmount, status: order.status });
-        }
-        else res.render('thankyou', { order_id, email, amount: totalAmount, status: 'Unpaid' });
+        // try{
+        //     if(orderModel.updateStatus(order_id, 'paid')){
+        //         const order = orderModel.getOrder(order_id);
+        //         return res.render('thankyou', { order_id, email, amount: totalAmount, status: order.status });
+        //     }
+        // } catch(error){
+            return res.render('thankyou', { order_id, email, amount: totalAmount, status: 'Unpaid' });
+        // }
     }
 
 }
