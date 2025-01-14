@@ -55,9 +55,13 @@
                   </h6>
                 </div>
                 <div class="col-md-1">
-                  <button class="btn btn-sm btn-danger remove-item">
-                    <i class="fa fa-trash"></i>
-                  </button>
+                  <!--showtimes -->
+                  <a
+                    href="/showtimes/<%= item.id %>"
+                    class="btn btn-sm btn-primary"
+                  >
+                    Checkout
+                  </a>
                 </div>
               </div>
             </div>
@@ -84,9 +88,7 @@
               item.quantity, 0).toFixed(2) %>
             </h5>
           </div>
-          <button id="checkout-btn" class="btn btn-accent w-100">
-            Checkout
-          </button>
+          <button id="checkout-btn" class="btn btn-accent w-100">Checkout</button>
         </div>
       </div>
     </div>

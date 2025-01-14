@@ -73,19 +73,16 @@ const checkout = async (req, res) => {
 
 const getCheckoutWithSeats = async (req, res) => {
   try {
-    const cartId = req.session.cart.id;
-    const cartItems = await CartModel.getCartItems(cartId);
-    const movieIds = cartItems.map(item => item.movie_id);
-    const showtimes = await ShowtimeModel.getShowtimesByMovieIds(movieIds);
-    const seatsByShowtime = {};
-    for (const showtime of showtimes) {
-      seatsByShowtime[showtime.id] = await SeatModel.getSeatsByShowtimeId(showtime.screen_id);
-    }
+    const cartItems = req.session.cart || [];
+    const movieIds = cartItems.map((item) => item.id);
 
-    res.render('checkout', { cartItems, showtimes, seatsByShowtime });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+    // Fetch showtimes for movies in the cart
+    const showtimes = await ShowtimeModel.getShowtimesByMovieIds(movieIds);
+
+    res.render("checkout_with_seats", { cartItems, showtimes });
+  } catch (err) {
+    console.error("Error during checkout with seats:", err);
+    res.status(500).send("Internal Server Error");
   }
 };
 
