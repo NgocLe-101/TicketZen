@@ -62,17 +62,17 @@ class OrderModel {
     }
   }
 
-  // Tạo đơn hàng mới
+// Tạo đơn hàng mới
   async createOrder(userId, totalAmount) {
     try {
-      const orderId = await db("orders").insert({
+      const [orderId] = await db("orders").insert({
         user_id: userId,
         total_amount: totalAmount,
         created_at: new Date(),
         updated_at: new Date(),
-      });
+      }).returning('id');  // Trả về ID của đơn hàng vừa tạo
 
-      return orderId; // Trả về ID của đơn hàng vừa tạo
+      return orderId; // Trả về ID của đơn hàng
     } catch (error) {
       console.error("Error creating order:", error);
       throw error;
@@ -82,7 +82,7 @@ class OrderModel {
   // Thêm mục đơn hàng vào DB
   async createOrderItems(orderItems) {
     try {
-      await db("order_items").insert(orderItems); // Chèn danh sách các mục đơn hàng vào DB
+      await db("order_items").insert(orderItems);  // Chèn danh sách các mục đơn hàng vào DB
     } catch (error) {
       console.error("Error adding order items:", error);
       throw error;

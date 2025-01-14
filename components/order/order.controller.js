@@ -3,33 +3,30 @@ export const createOrder = async (req, res) => {
   try {
     const userId = req.user.id;
     const { seats, totalAmount } = req.body;
-    console.log(seats, totalAmount);
+
     // Kiểm tra xem seats có phải là mảng không và có chứa phần tử không
     if (!Array.isArray(seats) || seats.length === 0) {
       return res.status(400).send("No seats selected or invalid seats data.");
     }
 
-    // Tạo đơn hàng mới trong DB
+// Create a new order in the database
     const orderId = await orderModel.createOrder(userId, totalAmount);
 
-    // Tạo các mục đơn hàng từ dữ liệu ghế
+// Create order items from the seats data
     const orderItems = seats.map((seat) => ({
-      order_id: orderId,      // Đảm bảo orderId là một số nguyên hợp lệ
-      price: parseFloat(seat.price),  // Đảm bảo giá trị price là số nguyên (parseFloat nếu cần)
-      seat_id: parseInt(seat.seatId, 10),  // Đảm bảo seatId là số nguyên
-      seat_type: parseInt(seat.seatType, 10)  // Đảm bảo seatType là số nguyên
+      order_id: orderId.id, // Make sure orderId is passed as a number, not an object
+      price: parseFloat(seat.price),
+      seat_id: parseInt(seat.seatId, 10),
+      seat_type: parseInt(seat.seatType, 10),
     }));
 
-// Kiểm tra lại orderItems trước khi gọi createOrderItems
-    console.log(orderItems);
+// Debugging output
+    console.log(orderItems[0]);
 
-// Chèn vào DB
+// Insert the order items into the database
     await orderModel.createOrderItems(orderItems);
 
-
-    // Thêm các mục đơn hàng vào DB
-    await orderModel.createOrderItems(orderItems);
-
+    req.session.order_id = orderItems[0].order_id;
     // Sau khi tạo đơn hàng thành công, gửi thông tin về đơn hàng
     res.json({ success: true, orderId });
   } catch (error) {
@@ -37,9 +34,6 @@ export const createOrder = async (req, res) => {
     res.status(500).send("An error occurred while creating the order.");
   }
 };
-
-
-
 
 export const getOrder = async (req, res) => {
   try {

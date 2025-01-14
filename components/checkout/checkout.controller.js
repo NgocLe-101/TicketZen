@@ -3,8 +3,9 @@ import orderModel from "./order.model.js";
 import userModel from "../user/user.model.js";
 class checkoutController {
   async getCheckout(req, res) {
-    const order_id = req.body
-    const order = orderModel.getOrder(order_id);
+    const order_id = req.session.order_id
+    const order = await orderModel.getOrder(order_id);
+    console.log(order);
     const user = await userModel.getUser(order.user_id);
 
 
@@ -17,9 +18,9 @@ class checkoutController {
     //   email: "jake@gmail.com",
     // };
     const info = {
-      order_id: order.order_id,
+      order_id: order.id,
       email: user.email,
-      totalAmount: order.total_amount,
+      totalAmount: order.total_amount*1000,
       status: order.status,
     };
     return res.render("checkout", { info });

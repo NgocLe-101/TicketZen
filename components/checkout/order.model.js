@@ -7,7 +7,7 @@ class orderModel {
         `SELECT id, user_id, total_amount FROM orders where id =?`,
         [id]
       );
-      return result.rows;
+      return result.rows[0];
     } catch (error) {
       throw error;
     }
