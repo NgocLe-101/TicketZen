@@ -20,8 +20,10 @@ const getOrCreateCart = async (req, res, next) => {
 
 const ensureHasCart = (req, res, next) => {
   if (!req.session.cart) {
+    console.log("Cart not found");
     return res.status(404).json({ message: "Cart not found" });
   }
+  console.log("Cart found");
   next();
 };
 export { getOrCreateCart, ensureHasCart };

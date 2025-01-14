@@ -10,6 +10,14 @@ class SeatModel {
             throw error; // Rethrow error if something goes wrong
         }
     }
+    async getSeatsByShowtimeId(showtimeId) {
+        try {
+          const result = await db('seats').where({ screen_id: showtimeId }).select('*');
+          return result;
+        } catch (error) {
+          throw error;
+        }
+      }
 }
 
 export default new SeatModel();
