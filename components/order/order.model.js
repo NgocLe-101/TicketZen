@@ -101,10 +101,11 @@ class OrderModel {
 
     const items = await db("order_items")
         .join("products", "order_items.product_id", "=", "products.id")
+        .join("product_images", "products.id", "=", "product_images.product_id")
         .where("order_items.order_id", orderId)
         .select(
             "products.title",
-            "products.image_url",
+            "product_images.image_url",
             "order_items.quantity",
             "order_items.price"
         );
@@ -128,9 +129,10 @@ class OrderModel {
   // Lấy danh sách các mục trong đơn hàng theo orderId
   async findOrderItemsByOrderId(orderId) {
     return await db("order_items")
-        .join("products", "order_items.product_id", "products.id") // Ensure the correct field is used for join
+        .join("products", "order_items.movie_id", "products.id") // Ensure the correct field is used for join
+        .join("product_images", "products.id", "=", "product_images.product_id")
         .select(
-            "products.image_url",
+            "product_images.image_url",
             "products.title",
             "order_items.quantity",
             "order_items.price"

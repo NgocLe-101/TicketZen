@@ -1,4 +1,5 @@
-<%- include('head', { title: `Order ${order.id}` }) -%>
+<%- include('head', {active: 'home'}) -%>
+<%- include('page_header', { title: `Order ${order.id}` }) -%>
 
 <div class="container py-5">
   <h2>Order #<%= order.id %></h2>
@@ -18,6 +19,11 @@
       </div>
     </div>
   <% }) %>
+    <div class="mt-4">
+        <a href="/checkout" class="btn btn-primary btn-lg">
+            Proceed to Checkout
+        </a>
+    </div>
 </div>
 
 <%- include('foot') -%>

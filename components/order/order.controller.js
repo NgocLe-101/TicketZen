@@ -2,7 +2,7 @@ import orderModel from './order.model.js';
 export const createOrder = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { seats, totalAmount } = req.body;
+    const { seats, totalAmount, movie_id } = req.body;
 
     // Kiểm tra xem seats có phải là mảng không và có chứa phần tử không
     if (!Array.isArray(seats) || seats.length === 0) {
@@ -18,6 +18,7 @@ export const createOrder = async (req, res) => {
       price: parseFloat(seat.price),
       seat_id: parseInt(seat.seatId, 10),
       seat_type: parseInt(seat.seatType, 10),
+      movie_id: movie_id
     }));
 
 // Debugging output
@@ -28,7 +29,7 @@ export const createOrder = async (req, res) => {
 
     req.session.order_id = orderItems[0].order_id;
     // Sau khi tạo đơn hàng thành công, gửi thông tin về đơn hàng
-    res.json({ success: true, orderId });
+    res.json({ success: true, orderId: orderId.id });
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred while creating the order.");
@@ -48,7 +49,7 @@ export const getOrder = async (req, res) => {
 
     // Lấy danh sách mục trong đơn hàng từ model
     const orderItems = await orderModel.findOrderItemsByOrderId(orderId);
-
+    console.log(order)
     // Render thông tin đơn hàng và các mục
     res.render("order", { order, orderItems });
   } catch (error) {
