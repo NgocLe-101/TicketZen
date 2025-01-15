@@ -49,7 +49,7 @@ export const getOrder = async (req, res) => {
 
     // Lấy danh sách mục trong đơn hàng từ model
     const orderItems = await orderModel.findOrderItemsByOrderId(orderId);
-    console.log(order)
+    console.log(orderItems)
     // Render thông tin đơn hàng và các mục
     res.render("order", { order, orderItems });
   } catch (error) {
@@ -66,9 +66,8 @@ export const listOrders = async (req, res) => {
 
     // Lấy danh sách đơn hàng từ model
     const orders = await orderModel.findOrdersByUserId(userId);
-
     // Render danh sách đơn hàng
-    res.render("orders", { orders });
+    res.render("orders", { orders});
   } catch (error) {
     console.error(error);
     res.status(500).send("Đã xảy ra lỗi khi lấy danh sách đơn hàng.");
