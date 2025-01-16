@@ -1,0 +1,91 @@
+<%- include('head', { active: 'checkout' }) -%>
+<%- include('page_header', { title: 'Checkout' }) -%>
+
+<!-- Checkout Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="display-5 mb-3">Checkout</h1>
+                    <p>Review your order details and complete the payment process.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-light p-4 rounded">
+                    <h4 class="mb-4">Order Details</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Order ID:</strong> <span><%= info.order_id %></span>
+                        </li>
+
+                        <li class="list-group-item">
+                            <strong>Email:</strong> <span><%= info.email %></span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Status:</strong> <span><%= info.status %></span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Total Amount:</strong>
+                            <span><%= info.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <button id="paymentButton" class="btn btn-primary px-4 py-2">Confirm and Pay</button>
+                <a href="/cart" class="btn btn-secondary px-4 py-2">Back to Cart</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Checkout End -->
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const paymentButton = document.querySelector('#paymentButton');
+
+        if (paymentButton) {
+            paymentButton.addEventListener('click', async (event) => {
+                event.preventDefault(); // Ngăn chặn hành động mặc định
+
+                const orderDetails = {
+                    order_id: "<%= info.order_id %>",
+                    email: "<%= info.email %>",
+                    totalAmount: "<%= info.totalAmount %>",
+                    status: "<%= info.status %>"
+                };
+
+                try {
+                    // Gửi yêu cầu thanh toán qua fetch
+                    const response = await fetch('/payment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(orderDetails),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        // Chuyển hướng người dùng đến trang thanh toán
+                        window.location.href = result.order_url;
+                    } else {
+                        alert('There was an issue with the payment request.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An unexpected error occurred. Please try again later.');
+                }
+            });
+        }
+    });
+</script>
+
+<%- include('foot') -%>

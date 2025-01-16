@@ -71,10 +71,27 @@ const checkout = async (req, res) => {
   }
 };
 
+const getCheckoutWithSeats = async (req, res) => {
+  try {
+    const cartItems = req.session.cart || [];
+    const movieIds = cartItems.map((item) => item.id);
+
+    // Fetch showtimes for movies in the cart
+    const showtimes = await ShowtimeModel.getShowtimesByMovieIds(movieIds);
+
+    res.render("checkout_with_seats", { cartItems, showtimes });
+  } catch (err) {
+    console.error("Error during checkout with seats:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
 export default {
   getCartPage,
   addToCart,
   updateCartItem,
   removeFromCart,
   checkout,
+  getCheckoutWithSeats,
 };

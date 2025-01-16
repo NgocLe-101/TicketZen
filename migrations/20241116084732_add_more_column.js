@@ -34,7 +34,7 @@ exports.up = function (knex) {
         table.integer("seats"); // Total seats available in the screen
         table.timestamps(true, true);
       })
-      .createTable("showtimes", (table) => {
+      .createTable("bookTicket", (table) => {
         table.increments("id");
         table.integer("movie_id").unsigned().references("id").inTable("products");
         table.integer("screen_id").unsigned().references("id").inTable("screens");
@@ -73,7 +73,7 @@ exports.up = function (knex) {
             .integer("showtime_id")
             .unsigned()
             .references("id")
-            .inTable("showtimes");
+            .inTable("bookTicket");
         table.integer("seat_id").unsigned().references("id").inTable("seats");
         table.integer("total_price");
         table.timestamps(true, true);
@@ -109,7 +109,7 @@ exports.down = function (knex) {
       .dropTable("age_ratings")
       .dropTable("cinemas")
       .dropTable("screens")
-      .dropTable("showtimes")
+      .dropTable("bookTicket")
       .dropTable("seat_types")
       .dropTable("seats")
       .dropTable("promotions")

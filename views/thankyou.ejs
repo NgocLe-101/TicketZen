@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank You - TicketZen</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/login_register.css" />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+        /* Dark Mode Styles */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        .thank-you-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #121212;
+        }
+
+        .thank-you-box {
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            color: #e0e0e0;
+        }
+
+        .logo-section h1 {
+            font-size: 36px;
+            color: #4e73df;
+        }
+
+        .logo-section .text-divider {
+            color: #fbbd08;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #bbbbbb;
+        }
+
+        .order-info h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .order-info p {
+            font-size: 14px;
+            color: #bbb;
+            margin: 5px 0;
+        }
+
+        .thank-you-actions p {
+            font-size: 16px;
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-actions .btn {
+            background-color: #4e73df;
+            color: #ffffff;
+            width: 100%;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .thank-you-actions .btn:hover {
+            background-color: #2e59d9;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid thank-you-page">
+    <div class="thank-you-box">
+        <div class="logo-section">
+            <h1 class="fw-bold text-accent">
+                TicketZ<span class="text-divider">en</span>
+            </h1>
+            <p class="subtitle">Thank you for your order!</p>
+            <div class="order-info">
+                <h2>Your order has been successfully placed.</h2>
+                <p>Order ID: <%= order_id %></p>
+                <p>Email: <%= email %></p>
+                <p>Total amount: <%= amount %></p>
+                <p>Status: <%= status %></p>
+            </div>
+        </div>
+
+        <div class="thank-you-actions">
+            <p>We appreciate your business and will notify you once your order is processed.</p>
+            <a href="/" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

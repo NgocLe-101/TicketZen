@@ -1,5 +1,4 @@
 import db from "../../dbs/db.js";
-
 class OrderModel {
   // Tạo đơn hàng từ giỏ hàng
   async createFromCart(userId) {
@@ -38,7 +37,7 @@ class OrderModel {
       // Tạo danh sách mục đơn hàng
       const orderItems = cartItems.map((item) => ({
         order_id: orderId,
-        product_id: item.product_id,
+        product_id: item.product_id, // Đảm bảo đúng trường
         quantity: item.quantity,
         price: item.price,
       }));
@@ -58,13 +57,41 @@ class OrderModel {
       };
     } catch (error) {
       await trx.rollback();
+      console.error("Error in createFromCart:", error);
       throw error;
     }
   }
 
-  // Lấy danh sách đơn hàng của người dùng
-  async getUserOrders(userId) {
-    return await db("orders").where("user_id", userId).orderBy("created_at", "desc");
+// Tạo đơn hàng mới
+  async createOrder(userId, totalAmount) {
+    try {
+      const [orderId] = await db("orders").insert({
+        user_id: userId,
+        total_amount: totalAmount,
+        created_at: new Date(),
+        updated_at: new Date(),
+      }).returning('id');  // Trả về ID của đơn hàng vừa tạo
+
+      return orderId; // Trả về ID của đơn hàng
+    } catch (error) {
+      console.error("Error creating order:", error);
+      throw error;
+    }
+  }
+
+  // Thêm mục đơn hàng vào DB
+  async createOrderItems(orderItems) {
+    try {
+      await db("order_items").insert(orderItems);  // Chèn danh sách các mục đơn hàng vào DB
+    } catch (error) {
+      console.error("Error adding order items:", error);
+      throw error;
+    }
+  }
+
+  // Xóa giỏ hàng của user
+  async clearCart(userId) {
+    return await db("cart_items").where("user_id", userId).del();
   }
 
   // Lấy thông tin chi tiết đơn hàng
@@ -74,10 +101,11 @@ class OrderModel {
 
     const items = await db("order_items")
         .join("products", "order_items.product_id", "=", "products.id")
+        .join("product_images", "products.id", "=", "product_images.product_id")
         .where("order_items.order_id", orderId)
         .select(
             "products.title",
-            "products.image_url",
+            "product_images.image_url",
             "order_items.quantity",
             "order_items.price"
         );
@@ -88,49 +116,30 @@ class OrderModel {
     };
   }
 
-  // Tạo đơn hàng thủ công
-  async createOrder(userId, totalAmount) {
-    const [orderId] = await db("orders").insert({
-      user_id: userId,
-      total_amount: totalAmount,
-      status: "pending",
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    return orderId;
+  // Lấy danh sách đơn hàng của người dùng
+  async getUserOrders(userId) {
+    return await db("orders").where("user_id", userId).orderBy("created_at", "desc");
   }
 
-  // Thêm các mục trong đơn hàng
-  async createOrderItems(orderItems) {
-    return await db("order_items").insert(orderItems);
-  }
-
-  // Xóa giỏ hàng của user
-  async clearCart(userId) {
-    return await db("cart_items").where("user_id", userId).del();
-  }
-
-  // Lấy sản phẩm trong giỏ hàng theo user ID
-  async findCartItemsByUserId(userId) {
-    return await db("cart_items").where("user_id", userId);
-  }
-  // Lấy thông tin đơn hàng theo orderId
+  // Tìm đơn hàng theo orderId
   async findOrderById(orderId) {
     return await db("orders").where("id", orderId).first();
   }
+
   // Lấy danh sách các mục trong đơn hàng theo orderId
   async findOrderItemsByOrderId(orderId) {
     return await db("order_items")
-        .join("products", "order_items.movie_id", "products.id")
+        .join("products", "order_items.movie_id", "products.id") // Ensure the correct field is used for join
+        .join("product_images", "products.id", "=", "product_images.product_id")
         .select(
-            "products.image_url",
+            "product_images.image_url",
             "products.title",
             "order_items.quantity",
             "order_items.price"
         )
         .where("order_items.order_id", orderId);
   }
+
   // Lấy danh sách đơn hàng của người dùng
   async findOrdersByUserId(userId) {
     return await db("orders")

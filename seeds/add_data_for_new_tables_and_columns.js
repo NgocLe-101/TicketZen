@@ -305,7 +305,7 @@ exports.seed = async function (knex) {
         })
         .where("id", 8);
 
-    await knex("showtimes").insert([
+    await knex("bookTicket").insert([
         {
             movie_id: 1,
             screen_id: 1,

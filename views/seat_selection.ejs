@@ -1,0 +1,146 @@
+
+<%- include('head', { active: 'showtimes' }) -%>
+<%- include('page_header', { title: 'Select Seats' }) -%>
+
+<!-- Seat Selection Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s">
+            <h1 class="display-5 mb-3">Select Seats</h1>
+            <p>Choose your preferred seats for the movie session.</p>
+        </div>
+
+        <!-- Screen -->
+        <div class="screen-container text-center mb-4">
+            <div class="screen bg-dark text-white py-2">
+                <span class="screen-text">SCREEN</span>
+            </div>
+        </div>
+
+        <!-- Seat Layout -->
+        <div class="row g-4">
+            <!-- Seat Layout -->
+            <!-- Seat Layout -->
+            <h5>Select Your Seats</h5>
+            <div class="seats-layout">
+                <% seats.forEach((seat) => { %>
+                    <button
+                            class="seat btn btn-sm
+        <%= seat.seat_type === 3 ? 'btn-platinum' :
+                                    seat.seat_type === 2 ? 'btn-gold' :
+                                            seat.seat_type === 1 ? 'btn-silver' : 'btn-secondary' %>
+        <%= seat.status === 'available' ? '' : 'disabled' %>"
+                            data-seat-id="<%= seat.id %>"
+                            data-price="<%= seat.calculatedPrice %>"
+                            data-seat-type="<%= seat.seat_type %>"
+                            <%= seat.status !== 'available' ? 'disabled' : '' %>
+                    >
+                        <%= seat.label %>
+                    </button>
+                <% }); %>
+            </div>
+
+            <!-- Display total price -->
+            <div class="total-price">
+                <h4>Total Price: <span id="total-price">0</span> VND</h4>
+            </div>
+
+        </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section mt-5">
+            <h5>Payment</h5>
+            <div class="total-amount">
+                <button id="pay-button" class="btn btn-primary">Proceed to Payment</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let totalPrice = 0;
+        let selectedSeats = [];
+
+        // Lắng nghe sự kiện khi người dùng chọn ghế
+        document.querySelectorAll('.seat').forEach(seatButton => {
+            seatButton.addEventListener('click', (event) => {
+                const seat = event.target;
+                const seatId = seat.getAttribute('data-seat-id');
+                const seatPrice = parseFloat(seat.getAttribute('data-price')); // Sử dụng giá đã tính
+                const seatType = parseInt(seat.getAttribute('data-seat-type'));
+
+                // Kiểm tra xem ghế đã được chọn chưa
+                if (seat.classList.contains('selected')) {
+                    // Nếu đã chọn, bỏ chọn và giảm giá
+                    seat.classList.remove('selected');
+                    selectedSeats = selectedSeats.filter(id => id !== seatId);
+                    totalPrice -= seatPrice;  // Trừ giá ghế đã chọn
+                } else {
+                    // Nếu chưa chọn, thêm vào danh sách và tăng giá
+                    seat.classList.add('selected');
+                    selectedSeats.push({
+                        seatId: seatId,
+                        price: seatPrice,
+                        seatType: seatType
+                    });
+                    totalPrice += seatPrice;  // Cộng giá ghế đã chọn
+                }
+
+                // Cập nhật tổng giá
+                document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+            });
+        });
+
+        // Lắng nghe sự kiện khi người dùng nhấn nút "Proceed to Payment"
+        document.getElementById('pay-button').addEventListener('click', () => {
+            if (selectedSeats.length === 0) {
+                alert("Please select at least one seat.");
+                return;
+            }
+
+            // Gửi thông tin ghế và tổng giá tới backend để tạo đơn hàng
+            fetch('/orders/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    seats: selectedSeats,
+                    totalAmount: totalPrice
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = `/orders/${data.orderId}`;  // Chuyển hướng đến trang chi tiết đơn hàng
+                    } else {
+                        alert("An error occurred while creating the order.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred.");
+                });
+        });
+    });
+</script>
+
+
+<%- include('foot') -%>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Logic to handle seat selection, toggle visibility, etc.
+    });
+</script>
+
+
+
+<%- include('foot') -%>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Logic to handle seat selection, toggle visibility, etc.
+    });
+</script>

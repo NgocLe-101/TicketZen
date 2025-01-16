@@ -1,0 +1,88 @@
+<%- include('head', { active: 'showtimes' }) -%>
+<%- include('page_header', { title: 'Showtimes' }) -%>
+
+<!-- Showtimes Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s">
+            <h1 class="display-5 mb-3">Showtimes</h1>
+            <p>Find available showtimes for your selected movie.</p>
+        </div>
+
+        <div class="row g-4" id="showtimes-container">
+            <%
+            const groupedShowtimes = {}; // Nhóm showtime theo ngày
+            showtimes.forEach((showtime) => {
+                const date = showtime.start_time.split(' ')[0]; // lấy ngày từ start_time
+                if (!groupedShowtimes[date]) groupedShowtimes[date] = [];
+                groupedShowtimes[date].push(showtime);
+            });
+            %>
+
+            <% Object.keys(groupedShowtimes).forEach((date) => { %>
+                <div class="col-12">
+                    <h3><%= date %></h3>
+                    <div class="row g-4">
+                        <% groupedShowtimes[date].forEach((showtime, index) => { %>
+                            <div class="col-lg-6 col-md-12 wow fadeInUp">
+                                <div class="showtime-item border p-4 mb-3">
+                                    <h4 class="mb-3"><%= showtime.movie_title %></h4>
+                                    <p><strong>Screen:</strong> <%= showtime.screen.name %></p>
+                                    <p><strong>Time:</strong> <%= showtime.start_time %> - <%= showtime.end_time %></p>
+
+                                    <!-- Toggle Seat Selection -->
+                                    <button
+                                            class="btn btn-info toggle-seats"
+                                            onclick="window.location.href='/showtimes/<%= showtime.movie_id %>/seats?start_time=<%= showtime.start_time %>&screen_id=<%= showtime.screen_id %>';">
+                                        View Seats
+                                    </button>
+
+
+
+                                    <!-- Seat Selection -->
+                                    <div id="seats-container-<%= date %>-<%= index %>"
+                                         class="seats-container mb-3 mt-3"
+                                         style="display: none;">
+                                        <h5>Select Seats</h5>
+                                        <div class="seats-layout">
+                                            <% showtime.seats.forEach((seat) => { %>
+                                                <button
+                                                        class="seat btn btn-sm
+                                                        <%= seat.status === 'available' ? 'btn-success' :
+                                                                seat.status === 'reserved' ? 'btn-danger' :
+                                                                        'btn-secondary' %>"
+                                                        data-seat-id="<%= seat.id %>"
+                                                        data-price="<%= seat.price %>"
+                                                        <%= seat.status !== 'available' ? 'disabled' : '' %>
+                                                >
+                                                    <%= seat.label %>
+                                                </button>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</div>
+<!-- Showtimes End -->
+
+<%- include('foot') -%>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Toggle visibility of seat containers
+        document.querySelectorAll('.toggle-seats').forEach(button => {
+            button.addEventListener('click', () => {
+                const target = document.querySelector(button.dataset.target);
+                if (target) {
+                    const isVisible = target.style.display === 'block';
+                    target.style.display = isVisible ? 'none' : 'block';
+                }
+            });
+        });
+    });
+</script>

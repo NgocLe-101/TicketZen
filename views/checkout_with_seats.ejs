@@ -1,0 +1,25 @@
+<%- include('head', { active: 'checkout' }) -%>
+<%- include('page_header', { title: 'Checkout - Select Showtimes and Seats' }) -%>
+
+<div class="container py-5">
+  <h2 class="text-primary mb-4">Select Showtimes and Seats</h2>
+
+  <% if (showtimes.length > 0) { %>
+    <ul class="list-group">
+      <% showtimes.forEach(showtime => { %>
+        <li class="list-group-item">
+          <div>
+            <strong>Movie:</strong> <%= cartItems.find(item => item.id === showtime.movie_id).title %><br />
+            <strong>Time:</strong> <%= showtime.time %><br />
+            <strong>Screen:</strong> <%= showtime.screen_id %>
+          </div>
+          <a href="/seats/<%= showtime.id %>" class="btn btn-primary mt-3">Select Seats</a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No showtimes available for the movies in your cart.</p>
+  <% } %>
+</div>
+
+<%- include('foot') -%>

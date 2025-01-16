@@ -2,41 +2,39 @@ import orderModel from './order.model.js';
 export const createOrder = async (req, res) => {
   try {
     const userId = req.user.id;
+    const { seats, totalAmount, movie_id } = req.body;
 
-    const cartItems = await orderModel.findCartItemsByUserId(userId);
-
-    if (cartItems.length === 0) {
-      return res.status(400).send("Giỏ hàng trống.");
+    // Kiểm tra xem seats có phải là mảng không và có chứa phần tử không
+    if (!Array.isArray(seats) || seats.length === 0) {
+      return res.status(400).send("No seats selected or invalid seats data.");
     }
 
-    const totalAmount = cartItems.reduce(
-        (total, item) => total + item.quantity * item.price,
-        0
-    );
-
+// Create a new order in the database
     const orderId = await orderModel.createOrder(userId, totalAmount);
 
-    const orderItems = cartItems.map((item) => ({
-      order_id: orderId,
-      movie_id: item.movie_id,
-      quantity: item.quantity,
-      price: item.price,
+// Create order items from the seats data
+    const orderItems = seats.map((seat) => ({
+      order_id: orderId.id, // Make sure orderId is passed as a number, not an object
+      price: parseFloat(seat.price),
+      seat_id: parseInt(seat.seatId, 10),
+      seat_type: parseInt(seat.seatType, 10),
+      movie_id: movie_id
     }));
 
-    // Thêm mục đơn hàng vào DB
+// Debugging output
+    console.log(orderItems[0]);
+
+// Insert the order items into the database
     await orderModel.createOrderItems(orderItems);
 
-    // Xóa giỏ hàng của user
-    await orderModel.clearCart(userId);
-
-    // Chuyển hướng đến chi tiết đơn hàng
-    res.redirect(`/orders/${orderId}`);
+    req.session.order_id = orderItems[0].order_id;
+    // Sau khi tạo đơn hàng thành công, gửi thông tin về đơn hàng
+    res.json({ success: true, orderId: orderId.id });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Đã xảy ra lỗi khi tạo đơn hàng.");
+    res.status(500).send("An error occurred while creating the order.");
   }
 };
-
 
 export const getOrder = async (req, res) => {
   try {
@@ -51,7 +49,7 @@ export const getOrder = async (req, res) => {
 
     // Lấy danh sách mục trong đơn hàng từ model
     const orderItems = await orderModel.findOrderItemsByOrderId(orderId);
-
+    console.log(orderItems)
     // Render thông tin đơn hàng và các mục
     res.render("order", { order, orderItems });
   } catch (error) {
@@ -68,9 +66,8 @@ export const listOrders = async (req, res) => {
 
     // Lấy danh sách đơn hàng từ model
     const orders = await orderModel.findOrdersByUserId(userId);
-
     // Render danh sách đơn hàng
-    res.render("orders", { orders });
+    res.render("orders", { orders});
   } catch (error) {
     console.error(error);
     res.status(500).send("Đã xảy ra lỗi khi lấy danh sách đơn hàng.");

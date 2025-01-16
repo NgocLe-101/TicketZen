@@ -6,6 +6,7 @@ const getIndexPage = async (req, res) => {
     ProductModel.getAllProducts(),
     PromotionModel.getAllPromotions(),
   ]);
+  console.log(products);
   const tabs = [
     {
       name: "Hot New Release",
