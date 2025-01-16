@@ -103,12 +103,29 @@
             </h1>
             <p class="subtitle">Thank you for your order!</p>
             <div class="order-info">
-                <h2>Your order has been successfully placed.</h2>
+                <h2>
+                    <% if (status === "Success") { %>
+                        Your order has been successfully placed.
+                    <% } else { %>
+                        Unfortunately, your order could not be processed.
+                    <% } %>
+                </h2>
                 <p>Order ID: <%= order_id %></p>
                 <p>Email: <%= email %></p>
                 <p>Total amount: <%= amount %></p>
                 <p>Status: <%= status %></p>
             </div>
+
+            <div class="thank-you-actions">
+                <% if (status === "Success") { %>
+                    <p>We appreciate your business and will notify you once your order is processed.</p>
+                    <a href="/" class="btn btn-primary">Back to Home</a>
+                <% } else { %>
+                    <p>Please try again or contact our support team for assistance.</p>
+                    <a href="/support" class="btn btn-danger">Contact Support</a>
+                <% } %>
+            </div>
+
         </div>
 
         <div class="thank-you-actions">

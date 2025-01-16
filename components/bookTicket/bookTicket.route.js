@@ -55,7 +55,6 @@ router.get('/showtimes/:movie_id/seats', async (req, res) => {
 
         const screenId = req.query.screen_id;
 
-        console.log(movie_info)
         // Lấy danh sách ghế từ SeatModel theo screenId
         const seats = await SeatModel.getSeatsByScreenId(screenId);
 
@@ -72,7 +71,6 @@ router.get('/showtimes/:movie_id/seats', async (req, res) => {
 
             return { ...seat, calculatedPrice: seatPrice };
         });
-
         // Trả về view seat_selection với danh sách ghế đã tính giá và thông tin phim
         return res.render('seat_selection', {
             seats: seatsWithCalculatedPrices,

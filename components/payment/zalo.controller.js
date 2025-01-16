@@ -15,22 +15,23 @@ const config = {
     key2: "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf",
     endpoint: 'https://sb-openapi.zalopay.vn/v2/create',
 };
-const url = 'ga-03-static-pages.vercel.app'
+const url = ' https://57d4-2402-800-6313-61e9-c078-accd-2db8-6d2c.ngrok-free.app'
 class zaloController{
     async processingPayment(req, res){
         const orderDetails = req.body
         console.log(orderDetails)
         const {order_id, email, totalAmount, status} = orderDetails
+        const app_trans_id = `${moment().format('YYMMDD')}_${order_id}`;
         const embed_data = {
             //sau khi hoàn tất thanh toán sẽ đi vào link này (thường là link web thanh toán thành công của mình)
-            redirecturl: `${url}/thankyou?order_id=${order_id}&email=${email}&totalAmount=${totalAmount}`,
+            redirecturl: `${url}/thankyou?order_id=${order_id}&email=${email}&totalAmount=${totalAmount}&app_trans_id=${app_trans_id}`,
         };
         // item thông tin
         const items = [];
 
         const order = {
             app_id: config.app_id,
-            app_trans_id: `${moment().format('YYMMDD')}_${order_id}`,
+            app_trans_id: app_trans_id,
             app_user: 'user123',
             app_time: Date.now(), // miliseconds
             item: JSON.stringify(items),
@@ -105,7 +106,7 @@ class zaloController{
         res.json(result);
     }
     async checkOrderStatus(req, res){
-        const { app_trans_id } = req.params;
+        const { app_trans_id } = req.body;
 
         let postData = {
             app_id: config.app_id,

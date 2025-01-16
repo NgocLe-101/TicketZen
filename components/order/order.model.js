@@ -131,11 +131,14 @@ class OrderModel {
     return await db("order_items")
         .join("products", "order_items.movie_id", "products.id") // Ensure the correct field is used for join
         .join("product_images", "products.id", "=", "product_images.product_id")
+        .join("seats", "order_items.seat_id", "=", "seats.id")
         .select(
             "product_images.image_url",
             "products.title",
             "order_items.quantity",
-            "order_items.price"
+            "order_items.price",
+            "order_items.seat_type",
+            "seats.name"
         )
         .where("order_items.order_id", orderId);
   }

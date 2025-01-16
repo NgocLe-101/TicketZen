@@ -51,7 +51,7 @@
         <div class="payment-section mt-5">
             <h5>Payment</h5>
             <div class="total-amount">
-                <button id="pay-button" class="btn btn-primary">Proceed to Payment</button>
+                <button id="pay-button" class="btn btn-primary" data-movie-id="<%= movie_info.id %>">Proceed to Payment</button>
             </div>
         </div>
 
@@ -74,7 +74,7 @@
                 if (seat.classList.contains('selected')) {
                     // Nếu đã chọn, bỏ chọn và giảm giá
                     seat.classList.remove('selected');
-                    selectedSeats = selectedSeats.filter(id => id !== seatId);
+                    selectedSeats = selectedSeats.filter(s => s.seatId !== seatId);
                     totalPrice -= seatPrice;  // Trừ giá ghế đã chọn
                 } else {
                     // Nếu chưa chọn, thêm vào danh sách và tăng giá
@@ -98,6 +98,7 @@
                 alert("Please select at least one seat.");
                 return;
             }
+            const movieId = document.getElementById('pay-button').getAttribute('data-movie-id');
 
             // Gửi thông tin ghế và tổng giá tới backend để tạo đơn hàng
             fetch('/orders/create', {
@@ -107,7 +108,8 @@
                 },
                 body: JSON.stringify({
                     seats: selectedSeats,
-                    totalAmount: totalPrice
+                    totalAmount: totalPrice,
+                    movie_id: movieId
                 })
             })
                 .then(response => response.json())
@@ -124,23 +126,9 @@
                 });
         });
     });
+
 </script>
 
 
 <%- include('foot') -%>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Logic to handle seat selection, toggle visibility, etc.
-    });
-</script>
-
-
-
-<%- include('foot') -%>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Logic to handle seat selection, toggle visibility, etc.
-    });
-</script>

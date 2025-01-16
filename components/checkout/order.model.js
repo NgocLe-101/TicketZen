@@ -4,7 +4,7 @@ class orderModel {
   async getOrder(id) {
     try {
       const result = await db.raw(
-        `SELECT id, user_id, total_amount FROM orders where id =?`,
+        `SELECT id, user_id, total_amount, status FROM orders where id =?`,
         [id]
       );
       return result.rows[0];
