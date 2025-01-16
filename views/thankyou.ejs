@@ -104,7 +104,7 @@
             <p class="subtitle">Thank you for your order!</p>
             <div class="order-info">
                 <h2>
-                    <% if (status === "Success") { %>
+                    <% if (status === "paid") { %>
                         Your order has been successfully placed.
                     <% } else { %>
                         Unfortunately, your order could not be processed.
@@ -117,7 +117,7 @@
             </div>
 
             <div class="thank-you-actions">
-                <% if (status === "Success") { %>
+                <% if (status === "paid") { %>
                     <p>We appreciate your business and will notify you once your order is processed.</p>
                     <a href="/" class="btn btn-primary">Back to Home</a>
                 <% } else { %>
@@ -126,11 +126,6 @@
                 <% } %>
             </div>
 
-        </div>
-
-        <div class="thank-you-actions">
-            <p>We appreciate your business and will notify you once your order is processed.</p>
-            <a href="/" class="btn btn-primary">Back to Home</a>
         </div>
     </div>
 </div>
