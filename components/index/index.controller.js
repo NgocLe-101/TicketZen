@@ -29,6 +29,7 @@ const getIndexPage = async (req, res) => {
     },
   ];
   const slideShow = products.products.slice(0, 4);
+  console.log("slideshow", slideShow);
   res.render("index", { tabs, slideShow, promotions }); // Render index page
 };
 

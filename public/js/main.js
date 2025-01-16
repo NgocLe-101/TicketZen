@@ -76,7 +76,7 @@ import cart from "./cart.js";
     if (!id) return;
     cart.addCartItem(id);
   });
-  
+
   $(".increase-qty, .decrease-qty").click(function () {
     const input = $(this).closest(".input-group").find(".qty-input");
     const newQty = $(this).hasClass("increase-qty")
@@ -108,5 +108,4 @@ import cart from "./cart.js";
         Toast.error("Failed to place order");
       });
   });
-
 })(jQuery);

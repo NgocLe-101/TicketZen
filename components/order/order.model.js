@@ -7,13 +7,13 @@ class OrderModel {
     try {
       // Lấy danh sách sản phẩm trong giỏ hàng
       const cartItems = await trx("cart_items")
-          .join("products", "cart_items.product_id", "=", "products.id")
-          .where("cart_items.user_id", userId)
-          .select(
-              "products.id as product_id",
-              "products.price",
-              "cart_items.quantity"
-          );
+        .join("products", "cart_items.product_id", "=", "products.id")
+        .where("cart_items.user_id", userId)
+        .select(
+          "products.id as product_id",
+          "products.price",
+          "cart_items.quantity"
+        );
 
       if (cartItems.length === 0) {
         throw new Error("Cart is empty");
@@ -21,8 +21,8 @@ class OrderModel {
 
       // Tính tổng tiền
       const totalAmount = cartItems.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0
+        (sum, item) => sum + item.price * item.quantity,
+        0
       );
 
       // Tạo đơn hàng
@@ -62,15 +62,17 @@ class OrderModel {
     }
   }
 
-// Tạo đơn hàng mới
+  // Tạo đơn hàng mới
   async createOrder(userId, totalAmount) {
     try {
-      const [orderId] = await db("orders").insert({
-        user_id: userId,
-        total_amount: totalAmount,
-        created_at: new Date(),
-        updated_at: new Date(),
-      }).returning('id');  // Trả về ID của đơn hàng vừa tạo
+      const [orderId] = await db("orders")
+        .insert({
+          user_id: userId,
+          total_amount: totalAmount,
+          created_at: new Date(),
+          updated_at: new Date(),
+        })
+        .returning("id"); // Trả về ID của đơn hàng vừa tạo
 
       return orderId; // Trả về ID của đơn hàng
     } catch (error) {
@@ -82,7 +84,7 @@ class OrderModel {
   // Thêm mục đơn hàng vào DB
   async createOrderItems(orderItems) {
     try {
-      await db("order_items").insert(orderItems);  // Chèn danh sách các mục đơn hàng vào DB
+      await db("tickets").insert(orderItems); // Chèn danh sách các mục đơn hàng vào DB
     } catch (error) {
       console.error("Error adding order items:", error);
       throw error;
@@ -96,19 +98,21 @@ class OrderModel {
 
   // Lấy thông tin chi tiết đơn hàng
   async getOrderDetails(orderId, userId) {
-    const order = await db("orders").where({ id: orderId, user_id: userId }).first();
+    const order = await db("orders")
+      .where({ id: orderId, user_id: userId })
+      .first();
     if (!order) return null;
 
     const items = await db("order_items")
-        .join("products", "order_items.product_id", "=", "products.id")
-        .join("product_images", "products.id", "=", "product_images.product_id")
-        .where("order_items.order_id", orderId)
-        .select(
-            "products.title",
-            "product_images.image_url",
-            "order_items.quantity",
-            "order_items.price"
-        );
+      .join("products", "order_items.product_id", "=", "products.id")
+      .join("product_images", "products.id", "=", "product_images.product_id")
+      .where("order_items.order_id", orderId)
+      .select(
+        "products.title",
+        "product_images.image_url",
+        "order_items.quantity",
+        "order_items.price"
+      );
 
     return {
       ...order,
@@ -118,7 +122,9 @@ class OrderModel {
 
   // Lấy danh sách đơn hàng của người dùng
   async getUserOrders(userId) {
-    return await db("orders").where("user_id", userId).orderBy("created_at", "desc");
+    return await db("orders")
+      .where("user_id", userId)
+      .orderBy("created_at", "desc");
   }
 
   // Tìm đơn hàng theo orderId
@@ -128,23 +134,29 @@ class OrderModel {
 
   // Lấy danh sách các mục trong đơn hàng theo orderId
   async findOrderItemsByOrderId(orderId) {
-    return await db("order_items")
-        .join("products", "order_items.movie_id", "products.id") // Ensure the correct field is used for join
-        .join("product_images", "products.id", "=", "product_images.product_id")
-        .select(
-            "product_images.image_url",
-            "products.title",
-            "order_items.quantity",
-            "order_items.price"
-        )
-        .where("order_items.order_id", orderId);
+    // return await db("order_items")
+    //   .join("products", "order_items.movie_id", "products.id") // Ensure the correct field is used for join
+    //   .join("product_images", "products.id", "=", "product_images.product_id")
+    //   .select(
+    //     "product_images.image_url",
+    //     "products.title",
+    //     "order_items.quantity",
+    //     "order_items.price"
+    //   )
+    //   .where("order_items.order_id", orderId);
+    return await db("tickets")
+      .join("showtimes", "tickets.showtime_id", "showtimes.id")
+      .join("products", "showtimes.movie_id", "products.id")
+      .join("product_images", "products.id", "=", "product_images.product_id")
+      .select("product_images.image_url", "products.title", "tickets.price")
+      .where("tickets.order_id", orderId);
   }
 
   // Lấy danh sách đơn hàng của người dùng
   async findOrdersByUserId(userId) {
     return await db("orders")
-        .where("user_id", userId)
-        .orderBy("created_at", "desc");
+      .where("user_id", userId)
+      .orderBy("created_at", "desc");
   }
 }
 

@@ -95,9 +95,9 @@ app.use("/profile", profileRouter);
 app.use("/cart", getOrCreateCart, cartRouter);
 app.use("/", indexRouter);
 app.use("/orders", orderRoute);
-app.use(bookTicketRouter)
-app.use(checkoutRoute)
-app.use(zaloRouter)
+app.use(bookTicketRouter);
+app.use(checkoutRoute);
+app.use(zaloRouter);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res) => {
@@ -108,11 +108,11 @@ It is recommended to keep export default app; and running "vercel dev" in the te
 If you want to use node or nodemon, comment out this line and uncomment the app.listen() method below.
 But remember to keep the export default app; line uncommented before pushing the code to the remote repository.
 */
-export default app;
+// export default app;
 
 /* 
 Using the app.listen() method only when developing the application locally (with node or nodemon).
 */
-// app.listen(3000, () => {
-//   console.log("Server is running on port 3000");
-// });
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});

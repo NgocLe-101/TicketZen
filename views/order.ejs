@@ -1,29 +1,30 @@
-<%- include('head', {active: 'home'}) -%>
-<%- include('page_header', { title: `Order ${order.id}` }) -%>
+<%- include('head', {active: 'home'}) -%> <%- include('page_header', { title:
+`Order ${order.id}` }) -%>
 
 <div class="container py-5">
   <h2>Order #<%= order.id %></h2>
   <p>Status: <%= order.status %></p>
   <p>Total Amount: $<%= order.total_amount %></p>
-  <hr>
+  <hr />
 
   <% orderItems.forEach(item => { %>
-    <div class="row mb-3">
-      <div class="col-md-2">
-        <img src="<%= item.image_url %>" alt="<%= item.title %>" class="img-fluid">
-      </div>
-      <div class="col-md-8">
-        <h5><%= item.title %></h5>
-        <p>Quantity: <%= item.quantity %></p>
-        <p>Price: $<%= (item.quantity * item.price).toFixed(2) %></p>
-      </div>
+  <div class="row mb-3">
+    <div class="col-md-2">
+      <img
+        src="<%= item.image_url %>"
+        alt="<%= item.title %>"
+        class="img-fluid"
+      />
     </div>
+    <div class="col-md-8">
+      <h5><%= item.title %></h5>
+      <p>Price: $<%= item.price %></p>
+    </div>
+  </div>
   <% }) %>
-    <div class="mt-4">
-        <a href="/checkout" class="btn btn-primary btn-lg">
-            Proceed to Checkout
-        </a>
-    </div>
+  <div class="mt-4">
+    <a href="/checkout" class="btn btn-primary btn-lg"> Proceed to Checkout </a>
+  </div>
 </div>
 
 <%- include('foot') -%>

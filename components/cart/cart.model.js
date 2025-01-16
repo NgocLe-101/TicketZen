@@ -8,12 +8,13 @@ const getCartItems = async (cartId) => {
   return await db("cart_items")
     .where({ cart_id: cartId })
     .join("products", "cart_items.movie_id", "products.id")
-      .join("product_images", "products.id", "=", "product_images.product_id")
+    .join("product_images", "products.id", "=", "product_images.product_id")
     .select(
       "cart_items.*",
       "products.title",
       "product_images.image_url",
-      "products.price"
+      "products.price",
+      "products.id as product_id"
     );
 };
 

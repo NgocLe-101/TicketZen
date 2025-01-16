@@ -3,11 +3,10 @@ import orderModel from "./order.model.js";
 import userModel from "../user/user.model.js";
 class checkoutController {
   async getCheckout(req, res) {
-    const order_id = req.session.order_id
+    const order_id = req.session.order_id;
     const order = await orderModel.getOrder(order_id);
     console.log(order);
     const user = await userModel.getUser(order.user_id);
-
 
     // const order = {
     //   order_id: Math.floor(Math.random() * 1000),
@@ -20,7 +19,7 @@ class checkoutController {
     const info = {
       order_id: order.id,
       email: user.email,
-      totalAmount: order.total_amount*1000,
+      totalAmount: order.total_amount,
       status: order.status,
     };
     return res.render("checkout", { info });
@@ -51,7 +50,10 @@ class checkoutController {
       const { tickets } = req.body;
       const userId = req.user.id;
 
-      const totalAmount = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
+      const totalAmount = tickets.reduce(
+        (sum, ticket) => sum + ticket.price,
+        0
+      );
       const order = await orderModel.createOrder(userId, totalAmount);
       await orderModel.createTickets(order.id, tickets);
 
@@ -66,12 +68,14 @@ class checkoutController {
     try {
       const { orderId } = req.body;
 
-      const success = await orderModel.updateStatus(orderId, 'paid');
+      const success = await orderModel.updateStatus(orderId, "paid");
 
       if (success) {
-        res.json({ success: true, message: 'Payment successful' });
+        res.json({ success: true, message: "Payment successful" });
       } else {
-        res.status(400).json({ success: false, message: 'Order update failed' });
+        res
+          .status(400)
+          .json({ success: false, message: "Order update failed" });
       }
     } catch (error) {
       console.error(error);

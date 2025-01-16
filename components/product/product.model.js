@@ -17,7 +17,10 @@ const ProductModel = {
   },
   findOne: async (condition) => {
     try {
-      return await db("products").join("product_images", "products.id", "=", "product_images.product_id").where(condition).first();
+      return await db("products")
+        .join("product_images", "products.id", "=", "product_images.product_id")
+        .where(condition)
+        .first();
     } catch (error) {
       throw new Error(error.message);
     }
@@ -25,26 +28,25 @@ const ProductModel = {
   getProductById: async (id) => {
     try {
       return await db("products")
-          .join("product_images", "products.id", "=", "product_images.product_id")
-          .where('products.id', id)  // Fully qualify the "id" column here
-          .first();
+        .join("product_images", "products.id", "=", "product_images.product_id")
+        .where("products.id", id) // Fully qualify the "id" column here
+        .first();
     } catch (error) {
       throw new Error(error.message);
     }
   },
 
-  getAllProducts: async (skip = 0, limit = 20) => { // Default limit is set to 20
+  getAllProducts: async (skip = 0, limit = 20) => {
+    // Default limit is set to 20
     try {
       // Get total number of products for pagination
       const totalQuery = db("products").count({ total: "*" }).first();
 
       // Base query to fetch products and their images
       let query = db("products")
-          // .select("products.*")
-          .select("products.*", "product_images.image_url")
-          .join("product_images", "products.id", "=", "product_images.product_id");
-
-
+        // .select("products.*")
+        .select("products.*");
+      const images = await db("product_images").select("*");
       // Apply pagination if `limit` is provided
       if (limit) {
         query = query.limit(limit).offset(skip);
@@ -52,9 +54,17 @@ const ProductModel = {
 
       // Run both queries in parallel
       const [totalResult, products] = await Promise.all([totalQuery, query]);
-
       // Return the total count and products list
-      return { total: totalResult.total, products };
+      return {
+        total: totalResult.total,
+        products: products.map((product) => {
+          return {
+            ...product,
+            image_url: images.find((image) => image.product_id === product.id)
+              .image_url,
+          };
+        }),
+      };
     } catch (error) {
       // Log the error and rethrow with a specific message
       console.error("Error fetching products:", error);
@@ -70,12 +80,12 @@ const ProductModel = {
           "genres.name as genre_name",
           "age_ratings.name as age_rating_name",
           "languages.name as language_name",
-            "product_images.image_url"
+          "product_images.image_url"
         )
-          .join("product_images", "products.id", "=", "product_images.product_id")
-          .join("genres", "products.genre", "=", "genres.id")
+        .join("product_images", "products.id", "=", "product_images.product_id")
+        .join("genres", "products.genre", "=", "genres.id")
         .join("age_ratings", "products.age_rating", "=", "age_ratings.id")
-        .join("languages", "products.language", "=", "languages.id")
+        .join("languages", "products.language", "=", "languages.id");
       console.log(filters.search);
       console.log(filters.genre);
       // Kiểm tra các giá trị trong filters và áp dụng bộ lọc tương ứng
@@ -139,15 +149,15 @@ const ProductModel = {
   getProductsByGenre: async (genre, skip = 0, limit = null) => {
     try {
       const totalQuery = db("products as p")
-          .join("product_images", "products.id", "=", "product_images.product_id")
-          .join("genres as g", "p.genre", "=", "g.id")
+        .join("product_images", "products.id", "=", "product_images.product_id")
+        .join("genres as g", "p.genre", "=", "g.id")
         .where("g.name", "ilike", `%${genre}%`)
         .count({ total: "*" })
         .first();
 
       let query = db("products as p")
-          .join("product_images", "products.id", "=", "product_images.product_id")
-          .join("genres as g", "p.genre", "=", "g.id")
+        .join("product_images", "products.id", "=", "product_images.product_id")
+        .join("genres as g", "p.genre", "=", "g.id")
         .select("p.*", "g.name as genre_name")
         .where("g.name", "ilike", `%${genre}%`)
         .orderBy("p.rating", "DESC");

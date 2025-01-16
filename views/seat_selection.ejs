@@ -107,7 +107,8 @@
                 },
                 body: JSON.stringify({
                     seats: selectedSeats,
-                    totalAmount: totalPrice
+                    totalAmount: totalPrice,
+                    showtime_id: <%= showtime_id %>
                 })
             })
                 .then(response => response.json())

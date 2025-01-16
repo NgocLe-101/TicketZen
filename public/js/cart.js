@@ -1,8 +1,11 @@
 function updateTotals(cartData) {
-    const subtotal = cartData.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    $('#subtotal').text('$' + subtotal.toFixed(2));
-    $('#total').text('$' + subtotal.toFixed(2));
-  }
+  const subtotal = cartData.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  $("#subtotal").text(subtotal + "đ");
+  $("#total").text(subtotal + "đ");
+}
 
 function updateCartItem(id, quantity) {
   $.post(`/cart/update/${id}`, { quantity })
@@ -17,7 +20,7 @@ function updateCartItem(id, quantity) {
 function removeCartItem(id) {
   $.post(`/cart/remove/${id}`)
     .done(function (response) {
-        console.log(response);
+      console.log(response);
       $(`.cart-item[data-id="${id}"]`).fadeOut(function () {
         $(this).remove();
         updateTotals(response.cart);
@@ -34,7 +37,7 @@ function addCartItem(id) {
       Toast.success(response.message);
     })
     .fail(function (err) {
-        console.log(err);
+      console.log(err);
       Toast.error("Failed to add item to cart");
     });
 }

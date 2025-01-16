@@ -37,10 +37,10 @@ const updateCartItem = async (req, res) => {
     const cartId = req.session.cart.id;
     const { id } = req.params;
     const { quantity } = req.body;
-    const movie = await ProductModel.getProductById(id);
-    if (!movie) {
-      return res.status(404).json({ message: "Movie not found" });
-    }
+    // const movie = await ProductModel.getProductById(id);
+    // if (!movie) {
+    //   return res.status(404).json({ message: "Movie not found" });
+    // }
 
     const updatedCart = await CartModel.updateItem(cartId, id, quantity);
     res.json(updatedCart);
@@ -85,7 +85,6 @@ const getCheckoutWithSeats = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 export default {
   getCartPage,
